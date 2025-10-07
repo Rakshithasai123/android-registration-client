@@ -42,6 +42,11 @@ class _DocumentUploadControlState extends State<DocumentUploadControl> {
   late RegistrationTaskProvider registrationTaskProvider;
   Map<String, String> transliterationLangMapper = {};
   bool hasInteractedWithDropdown = false;
+  String getReadableFileSize(int bytes) {
+    if (bytes < 1024) return "$bytes B";
+    if (bytes < 1024 * 1024) return "${(bytes / 1024).toStringAsFixed(2)} KB";
+    return "${(bytes / (1024 * 1024)).toStringAsFixed(2)} MB";
+  }
 
 
   FixedExtentScrollController scrollController = FixedExtentScrollController();
@@ -110,7 +115,7 @@ class _DocumentUploadControlState extends State<DocumentUploadControl> {
         .containsKey(widget.field.id)) {
       if (widget.field.type == 'simpleType') {
         if ((context.read<GlobalProvider>().fieldInputValue[widget.field.id]
-                as Map<String, dynamic>)
+        as Map<String, dynamic>)
             .containsKey(lang)) {
           response = context
               .read<GlobalProvider>()
@@ -150,7 +155,7 @@ class _DocumentUploadControlState extends State<DocumentUploadControl> {
 
   List<String> poaList = [];
   List<Uint8List?> imageBytesList =
-      List.empty(growable: true); // list of image bytes
+  List.empty(growable: true); // list of image bytes
 
   _getAddDocumentProvider(Field e, Uint8List myBytes, String referenceNumber) {
     context
@@ -261,7 +266,7 @@ class _DocumentUploadControlState extends State<DocumentUploadControl> {
   String initialSelectedData = "";
 
   final TextEditingController documentController =
-      TextEditingController(text: "");
+  TextEditingController(text: "");
 
   void saveData(value) {
     if (value != null) {
@@ -322,97 +327,369 @@ class _DocumentUploadControlState extends State<DocumentUploadControl> {
           padding: EdgeInsets.symmetric(vertical: 24.h, horizontal: 14.w),
           child: isMobile
               ? Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    FutureBuilder(
-                        future: myGetDocumentCategoryFuture,
-                        builder: (BuildContext context,
-                            AsyncSnapshot<List<String?>> snapshot) {
-                          return Card(
-                            elevation: 0,
-                            margin: EdgeInsets.symmetric(horizontal: 12.w),
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 16.h, horizontal: 16.w),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  CustomLabel(field: widget.field),
-                                  SizedBox(
-                                    height: 10.h,
-                                  ),
-                                  snapshot.hasData
-                                      ? TextFormField(
-                                          readOnly: true,
-                                          autovalidateMode: AutovalidateMode
-                                              .onUserInteraction,
-                                          controller: documentController,
-                                          onTap: () {
-                                            if (snapshot.data!.isNotEmpty) {
-                                              _showDropdownBottomSheet(snapshot,
-                                                  widget.field, context);
-                                            }
-                                          },
-                                          validator: (value) {
-                                            if (!widget.field.required! &&
-                                                (widget.field.requiredOn ==
-                                                        null ||
-                                                    widget.field.requiredOn!
-                                                        .isEmpty ||
-                                                    !(globalProvider
-                                                                .mvelRequiredFields[
-                                                            widget.field.id] ??
-                                                        true))) {
-                                              return null;
-                                            }
-                                            if ((value == null ||
-                                                    value.isEmpty) &&
-                                                widget.field.inputRequired! && hasInteractedWithDropdown) {
-                                              return AppLocalizations.of(
-                                                      context)!
-                                                  .select_value_message;
-                                            }
-                                            if (!widget.validation
-                                                .hasMatch(value!)) {
-                                              return AppLocalizations.of(
-                                                      context)!
-                                                  .invalid_input;
-                                            }
-                                            return null;
-                                          },
-                                          textAlign: TextAlign.left,
-                                          decoration: InputDecoration(
-                                            border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(8.0),
-                                              borderSide: const BorderSide(
-                                                  color: Colors.grey, width: 1),
-                                            ),
-                                            contentPadding:
-                                                EdgeInsets.symmetric(
-                                                    vertical: 14.h,
-                                                    horizontal: 16.w),
-                                            hintText: "Select Value",
-                                            hintStyle: const TextStyle(
-                                                color: Colors.grey,
-                                                fontSize: 14),
-                                            suffixIcon: const Icon(
-                                                Icons.keyboard_arrow_down,
-                                                color: Colors.grey),
-                                          ),
-                                        )
-                                      : const SizedBox.shrink(),
-                                ],
-                              ),
-                            ),
-                          );
-                        }),
-                    Card(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              FutureBuilder(
+                  future: myGetDocumentCategoryFuture,
+                  builder: (BuildContext context,
+                      AsyncSnapshot<List<String?>> snapshot) {
+                    return Card(
                       elevation: 0,
                       margin: EdgeInsets.symmetric(horizontal: 12.w),
                       child: Padding(
                         padding: EdgeInsets.symmetric(
                             vertical: 16.h, horizontal: 16.w),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CustomLabel(field: widget.field),
+                            SizedBox(
+                              height: 10.h,
+                            ),
+                            snapshot.hasData
+                                ? TextFormField(
+                              readOnly: true,
+                              autovalidateMode: AutovalidateMode
+                                  .onUserInteraction,
+                              controller: documentController,
+                              onTap: () {
+                                if (snapshot.data!.isNotEmpty) {
+                                  _showDropdownBottomSheet(snapshot,
+                                      widget.field, context);
+                                }
+                              },
+                              validator: (value) {
+                                if (!widget.field.required! &&
+                                    (widget.field.requiredOn ==
+                                        null ||
+                                        widget.field.requiredOn!
+                                            .isEmpty ||
+                                        !(globalProvider
+                                            .mvelRequiredFields[
+                                        widget.field.id] ??
+                                            true))) {
+                                  return null;
+                                }
+                                if ((value == null ||
+                                    value.isEmpty) &&
+                                    widget.field.inputRequired! && hasInteractedWithDropdown) {
+                                  return AppLocalizations.of(
+                                      context)!
+                                      .select_value_message;
+                                }
+                                if (!widget.validation
+                                    .hasMatch(value!)) {
+                                  return AppLocalizations.of(
+                                      context)!
+                                      .invalid_input;
+                                }
+                                return null;
+                              },
+                              textAlign: TextAlign.left,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius:
+                                  BorderRadius.circular(8.0),
+                                  borderSide: const BorderSide(
+                                      color: Colors.grey, width: 1),
+                                ),
+                                contentPadding:
+                                EdgeInsets.symmetric(
+                                    vertical: 14.h,
+                                    horizontal: 16.w),
+                                hintText: "Select Value",
+                                hintStyle: const TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 14),
+                                suffixIcon: const Icon(
+                                    Icons.keyboard_arrow_down,
+                                    color: Colors.grey),
+                              ),
+                            )
+                                : const SizedBox.shrink(),
+                          ],
+                        ),
+                      ),
+                    );
+                  }),
+              Card(
+                elevation: 0,
+                margin: EdgeInsets.symmetric(horizontal: 12.w),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                      vertical: 16.h, horizontal: 16.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomLabel(
+                          field: Field(
+                              label: transliterationLangMapper,
+                              required: false)),
+                      SizedBox(
+                        height: 10.h,
+                      ),
+                      TextFormField(
+                        autovalidateMode:
+                        AutovalidateMode.onUserInteraction,
+                        initialValue: _getDataFromMap("eng"),
+                        textCapitalization: TextCapitalization.words,
+                        onChanged: (value) {
+                          doc.referenceNumber = value;
+                          referenceNumber = value;
+                        },
+                        textAlign: TextAlign.left,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                            borderSide: const BorderSide(
+                                color: appGreyShade, width: 1),
+                          ),
+                          contentPadding:
+                          EdgeInsets.symmetric(horizontal: 16.w),
+                          hintText: AppLocalizations.of(context)!
+                              .reference_number,
+                          hintStyle: const TextStyle(
+                              color: appBlackShade3, fontSize: 14),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 10.h,
+              ),
+              SizedBox(
+                width: 300.w,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 24.w),
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: Size(100.w, 50.h),
+                          ),
+                          onPressed: (documentController.text == "")
+                              ? null
+                              : () async {
+                            _documentScanClickedAudit();
+                            var doc = await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      CustomScanner(
+                                          field: widget.field)),
+                            );
+
+                            await addDocument(
+                                doc, widget.field, referenceNumber);
+                            await getScannedDocuments(widget.field);
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                Icons.crop_free_sharp,
+                                color: Colors.white,
+                                size: 14,
+                              ),
+                              SizedBox(width: 5.w),
+                              Text(
+                                AppLocalizations.of(context)!.scan,
+                                style: const TextStyle(
+                                    fontSize: 16, color: Colors.white),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 10.h,
+              ),
+              imageBytesList.isNotEmpty
+                  ? SizedBox(
+                  height: 120.h,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: imageBytesList.map((item) {
+                      return Card(
+                        child: Column(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          PreviewScreen(bytes: item)),
+                                );
+                              },
+                              child: SizedBox(
+                                height: 70.h,
+                                width: 100.w,
+                                child: Image.memory(item!),
+                              ),
+                            ),
+                            SizedBox(height: 2.h),
+                            Text(
+                              'Size: ${getReadableFileSize(item.length)}',
+                              style: TextStyle(fontSize: 12.sp, color: Colors.grey),
+                            ),
+                            SizedBox(height: 2.h),
+                            GestureDetector(
+                              onTap: () {
+                                _deleteImage(widget.field, item);
+                                _removeFieldValue(widget.field, item);
+                                _setRemoveScannedPages(widget.field,
+                                    item, imageBytesList);
+                              },
+                              child: Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.center,
+                                children: [
+                                  const Icon(
+                                    Icons.delete_forever_outlined,
+                                    color: Colors.red,
+                                    size: 14,
+                                  ),
+                                  SizedBox(width: 5.w),
+                                  Text(
+                                      AppLocalizations.of(context)!
+                                          .delete,
+                                      style: const TextStyle(
+                                          fontSize: 13,
+                                          color: Colors.red)),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      );
+                    }).toList(),
+                  ))
+                  : Container(),
+            ],
+          )
+              : Column(
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                      flex: 2,
+                      child: FutureBuilder(
+                          future: myGetDocumentCategoryFuture,
+                          builder: (BuildContext context,
+                              AsyncSnapshot<List<String?>> snapshot) {
+                            return Card(
+                              elevation: 0,
+                              margin: EdgeInsets.symmetric(
+                                  vertical: 1.h, horizontal: 5.w),
+                              child: Padding(
+                                padding:
+                                EdgeInsets.symmetric(vertical: 24.h),
+                                child: Column(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  children: [
+                                    CustomLabel(field: widget.field),
+                                    SizedBox(
+                                      height: 10.h,
+                                    ),
+                                    snapshot.hasData
+                                        ? TextFormField(
+                                      readOnly: true,
+                                      autovalidateMode:
+                                      AutovalidateMode
+                                          .onUserInteraction,
+                                      controller:
+                                      documentController,
+                                      onTap: () {
+                                        if (snapshot
+                                            .data!.isNotEmpty) {
+                                          _showDropdownBottomSheet(
+                                              snapshot,
+                                              widget.field,
+                                              context);
+                                        }
+                                      },
+                                      validator: (value) {
+                                        if (!widget
+                                            .field.required! &&
+                                            (widget.field.requiredOn ==
+                                                null ||
+                                                widget
+                                                    .field
+                                                    .requiredOn!
+                                                    .isEmpty ||
+                                                !(globalProvider
+                                                    .mvelRequiredFields[
+                                                widget.field
+                                                    .id] ??
+                                                    true))) {
+                                          return null;
+                                        }
+                                        if ((value == null ||
+                                            value.isEmpty) &&
+                                            (widget.field.inputRequired!) && hasInteractedWithDropdown) {
+                                          return AppLocalizations
+                                              .of(context)!
+                                              .select_value_message;
+                                        }
+                                        if (!widget.validation
+                                            .hasMatch(value!)) {
+                                          return AppLocalizations
+                                              .of(context)!
+                                              .invalid_input;
+                                        }
+                                        return null;
+                                      },
+                                      textAlign: TextAlign.left,
+                                      decoration: InputDecoration(
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                          BorderRadius.circular(
+                                              8.0),
+                                          borderSide: BorderSide(
+                                              color: Colors.grey,
+                                              width: 1.w),
+                                        ),
+                                        contentPadding:
+                                        EdgeInsets.symmetric(
+                                            vertical: 14.h,
+                                            horizontal: 16.w),
+                                        hintText: "Select Value",
+                                        hintStyle: const TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 14),
+                                        suffixIcon: const Icon(
+                                            Icons
+                                                .keyboard_arrow_down,
+                                            color: Colors.grey),
+                                        helperText: "",
+                                      ),
+                                    )
+                                        : const SizedBox.shrink(),
+                                  ],
+                                ),
+                              ),
+                            );
+                          })),
+                  Expanded(
+                    flex: 2,
+                    child: Card(
+                      elevation: 0,
+                      margin: EdgeInsets.symmetric(
+                          vertical: 1.h, horizontal: 5.w),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 24.h),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -425,9 +702,10 @@ class _DocumentUploadControlState extends State<DocumentUploadControl> {
                             ),
                             TextFormField(
                               autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
+                              AutovalidateMode.onUserInteraction,
                               initialValue: _getDataFromMap("eng"),
-                              textCapitalization: TextCapitalization.words,
+                              textCapitalization:
+                              TextCapitalization.words,
                               onChanged: (value) {
                                 doc.referenceNumber = value;
                                 referenceNumber = value;
@@ -435,399 +713,131 @@ class _DocumentUploadControlState extends State<DocumentUploadControl> {
                               textAlign: TextAlign.left,
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  borderSide: const BorderSide(
-                                      color: appGreyShade, width: 1),
+                                  borderRadius:
+                                  BorderRadius.circular(8.0),
+                                  borderSide: BorderSide(
+                                      color: appGreyShade, width: 1.w),
                                 ),
-                                contentPadding:
-                                    EdgeInsets.symmetric(horizontal: 16.w),
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: 14.h, horizontal: 16.w),
                                 hintText: AppLocalizations.of(context)!
                                     .reference_number,
                                 hintStyle: const TextStyle(
                                     color: appBlackShade3, fontSize: 14),
+                                helperText: "",
                               ),
                             ),
                           ],
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    SizedBox(
-                      width: 300.w,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 24.w),
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  minimumSize: Size(100.w, 50.h),
-                                ),
-                                onPressed: (documentController.text == "")
-                                    ? null
-                                    : () async {
-                                        _documentScanClickedAudit();
-                                        var doc = await Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  CustomScanner(
-                                                      field: widget.field)),
-                                        );
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 10.h, left: 10.w),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: Size(100.w, 48.h),
+                        ),
+                        onPressed: (documentController.text == "")
+                            ? null
+                            : () async {
+                          _documentScanClickedAudit();
+                          var doc = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CustomScanner(
+                                    field: widget.field)),
+                          );
+                          await addDocument(
+                              doc, widget.field, referenceNumber);
 
-                                        await addDocument(
-                                            doc, widget.field, referenceNumber);
-                                        await getScannedDocuments(widget.field);
-                                      },
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Icon(
-                                      Icons.crop_free_sharp,
-                                      color: Colors.white,
-                                      size: 14,
-                                    ),
-                                    SizedBox(width: 5.w),
-                                    Text(
-                                      AppLocalizations.of(context)!.scan,
-                                      style: const TextStyle(
-                                          fontSize: 16, color: Colors.white),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                          await getScannedDocuments(widget.field);
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.crop_free_sharp,
+                              color: Colors.white,
+                              size: 14,
                             ),
-                          ),
-                        ],
+                            SizedBox(width: 5.w),
+                            Text(
+                              AppLocalizations.of(context)!.scan,
+                              style: const TextStyle(
+                                  fontSize: 16, color: Colors.white),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    imageBytesList.isNotEmpty
-                        ? SizedBox(
-                            height: 110.h,
-                            child: ListView(
-                              scrollDirection: Axis.horizontal,
-                              children: imageBytesList.map((item) {
-                                return Card(
-                                  child: Column(
-                                    children: [
-                                      InkWell(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    PreviewScreen(bytes: item)),
-                                          );
-                                        },
-                                        child: SizedBox(
-                                          height: 70.h,
-                                          width: 100.w,
-                                          child: Image.memory(item!),
-                                        ),
-                                      ),
-                                      SizedBox(height: 10.h),
-                                      GestureDetector(
-                                        onTap: () {
-                                          _deleteImage(widget.field, item);
-                                          _removeFieldValue(widget.field, item);
-                                          _setRemoveScannedPages(widget.field,
-                                              item, imageBytesList);
-                                        },
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            const Icon(
-                                              Icons.delete_forever_outlined,
-                                              color: Colors.red,
-                                              size: 14,
-                                            ),
-                                            SizedBox(width: 5.w),
-                                            Text(
-                                                AppLocalizations.of(context)!
-                                                    .delete,
-                                                style: const TextStyle(
-                                                    fontSize: 13,
-                                                    color: Colors.red)),
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 10.h,
+              ),
+              imageBytesList.isNotEmpty
+                  ? SizedBox(
+                  height: 110.h,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: imageBytesList.map((item) {
+                      return Card(
+                        child: Column(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          PreviewScreen(bytes: item)),
                                 );
-                              }).toList(),
-                            ))
-                        : Container(),
-                  ],
-                )
-              : Column(
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                            flex: 2,
-                            child: FutureBuilder(
-                                future: myGetDocumentCategoryFuture,
-                                builder: (BuildContext context,
-                                    AsyncSnapshot<List<String?>> snapshot) {
-                                  return Card(
-                                    elevation: 0,
-                                    margin: EdgeInsets.symmetric(
-                                        vertical: 1.h, horizontal: 5.w),
-                                    child: Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 24.h),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          CustomLabel(field: widget.field),
-                                          SizedBox(
-                                            height: 10.h,
-                                          ),
-                                          snapshot.hasData
-                                              ? TextFormField(
-                                                  readOnly: true,
-                                                  autovalidateMode:
-                                                      AutovalidateMode
-                                                          .onUserInteraction,
-                                                  controller:
-                                                      documentController,
-                                                  onTap: () {
-                                                    if (snapshot
-                                                        .data!.isNotEmpty) {
-                                                      _showDropdownBottomSheet(
-                                                          snapshot,
-                                                          widget.field,
-                                                          context);
-                                                    }
-                                                  },
-                                                  validator: (value) {
-                                                    if (!widget
-                                                            .field.required! &&
-                                                        (widget.field.requiredOn ==
-                                                                null ||
-                                                            widget
-                                                                .field
-                                                                .requiredOn!
-                                                                .isEmpty ||
-                                                            !(globalProvider
-                                                                        .mvelRequiredFields[
-                                                                    widget.field
-                                                                        .id] ??
-                                                                true))) {
-                                                      return null;
-                                                    }
-                                                    if ((value == null ||
-                                                            value.isEmpty) &&
-                                                        (widget.field.inputRequired!) && hasInteractedWithDropdown) {
-                                                      return AppLocalizations
-                                                              .of(context)!
-                                                          .select_value_message;
-                                                    }
-                                                    if (!widget.validation
-                                                        .hasMatch(value!)) {
-                                                      return AppLocalizations
-                                                              .of(context)!
-                                                          .invalid_input;
-                                                    }
-                                                    return null;
-                                                  },
-                                                  textAlign: TextAlign.left,
-                                                  decoration: InputDecoration(
-                                                    border: OutlineInputBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              8.0),
-                                                      borderSide: BorderSide(
-                                                          color: Colors.grey,
-                                                          width: 1.w),
-                                                    ),
-                                                    contentPadding:
-                                                        EdgeInsets.symmetric(
-                                                            vertical: 14.h,
-                                                            horizontal: 16.w),
-                                                    hintText: "Select Value",
-                                                    hintStyle: const TextStyle(
-                                                        color: Colors.grey,
-                                                        fontSize: 14),
-                                                    suffixIcon: const Icon(
-                                                        Icons
-                                                            .keyboard_arrow_down,
-                                                        color: Colors.grey),
-                                                    helperText: "",
-                                                  ),
-                                                )
-                                              : const SizedBox.shrink(),
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                })),
-                        Expanded(
-                          flex: 2,
-                          child: Card(
-                            elevation: 0,
-                            margin: EdgeInsets.symmetric(
-                                vertical: 1.h, horizontal: 5.w),
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(vertical: 24.h),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  CustomLabel(
-                                      field: Field(
-                                          label: transliterationLangMapper,
-                                          required: false)),
-                                  SizedBox(
-                                    height: 10.h,
-                                  ),
-                                  TextFormField(
-                                    autovalidateMode:
-                                        AutovalidateMode.onUserInteraction,
-                                    initialValue: _getDataFromMap("eng"),
-                                    textCapitalization:
-                                        TextCapitalization.words,
-                                    onChanged: (value) {
-                                      doc.referenceNumber = value;
-                                      referenceNumber = value;
-                                    },
-                                    textAlign: TextAlign.left,
-                                    decoration: InputDecoration(
-                                      border: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                        borderSide: BorderSide(
-                                            color: appGreyShade, width: 1.w),
-                                      ),
-                                      contentPadding: EdgeInsets.symmetric(
-                                          vertical: 14.h, horizontal: 16.w),
-                                      hintText: AppLocalizations.of(context)!
-                                          .reference_number,
-                                      hintStyle: const TextStyle(
-                                          color: appBlackShade3, fontSize: 14),
-                                      helperText: "",
-                                    ),
-                                  ),
-                                ],
+                              },
+                              child: SizedBox(
+                                height: 70.h,
+                                width: 100.w,
+                                child: Image.memory(item!),
                               ),
                             ),
-                          ),
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: Padding(
-                            padding: EdgeInsets.only(top: 10.h, left: 10.w),
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                minimumSize: Size(100.w, 48.h),
-                              ),
-                              onPressed: (documentController.text == "")
-                                  ? null
-                                  : () async {
-                                      _documentScanClickedAudit();
-                                      var doc = await Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => CustomScanner(
-                                                field: widget.field)),
-                                      );
-                                      await addDocument(
-                                          doc, widget.field, referenceNumber);
-
-                                      await getScannedDocuments(widget.field);
-                                    },
+                            SizedBox(height: 10.h),
+                            GestureDetector(
+                              onTap: () {
+                                _deleteImage(widget.field, item);
+                                _removeFieldValue(widget.field, item);
+                                _setRemoveScannedPages(widget.field,
+                                    item, imageBytesList);
+                              },
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisAlignment:
+                                MainAxisAlignment.center,
                                 children: [
                                   const Icon(
-                                    Icons.crop_free_sharp,
-                                    color: Colors.white,
+                                    Icons.delete_forever_outlined,
+                                    color: Colors.red,
                                     size: 14,
                                   ),
                                   SizedBox(width: 5.w),
                                   Text(
-                                    AppLocalizations.of(context)!.scan,
-                                    style: const TextStyle(
-                                        fontSize: 16, color: Colors.white),
-                                  ),
+                                      AppLocalizations.of(context)!
+                                          .delete,
+                                      style: const TextStyle(
+                                          fontSize: 13,
+                                          color: Colors.red)),
                                 ],
                               ),
-                            ),
-                          ),
+                            )
+                          ],
                         ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    imageBytesList.isNotEmpty
-                        ? SizedBox(
-                            height: 110.h,
-                            child: ListView(
-                              scrollDirection: Axis.horizontal,
-                              children: imageBytesList.map((item) {
-                                return Card(
-                                  child: Column(
-                                    children: [
-                                      InkWell(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    PreviewScreen(bytes: item)),
-                                          );
-                                        },
-                                        child: SizedBox(
-                                          height: 70.h,
-                                          width: 100.w,
-                                          child: Image.memory(item!),
-                                        ),
-                                      ),
-                                      SizedBox(height: 10.h),
-                                      GestureDetector(
-                                        onTap: () {
-                                          _deleteImage(widget.field, item);
-                                          _removeFieldValue(widget.field, item);
-                                          _setRemoveScannedPages(widget.field,
-                                              item, imageBytesList);
-                                        },
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            const Icon(
-                                              Icons.delete_forever_outlined,
-                                              color: Colors.red,
-                                              size: 14,
-                                            ),
-                                            SizedBox(width: 5.w),
-                                            Text(
-                                                AppLocalizations.of(context)!
-                                                    .delete,
-                                                style: const TextStyle(
-                                                    fontSize: 13,
-                                                    color: Colors.red)),
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                );
-                              }).toList(),
-                            ))
-                        : Container(),
-                  ],
-                ),
+                      );
+                    }).toList(),
+                  ))
+                  : Container(),
+            ],
+          ),
         ),
       ),
     );
