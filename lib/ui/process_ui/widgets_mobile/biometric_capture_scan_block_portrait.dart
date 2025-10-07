@@ -875,7 +875,7 @@ class _BiometricCaptureScanBlockPortraitState
                                     .textTheme
                                     .bodyLarge
                                     ?.copyWith(
-                                        fontSize: 21,
+                                        fontSize: 23,
                                         color: secondaryColors.elementAt(19),
                                         fontWeight: semiBold),
                               ),
