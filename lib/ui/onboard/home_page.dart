@@ -149,8 +149,7 @@ class _HomePageState extends State<HomePage> {
   String getRoleBasedBiometricTitle(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     final globalProvider = Provider.of<GlobalProvider>(context, listen: false);
-    final loc = AppLocalizations.of(context)!;
-
+    
     final bool isOnboarding = globalProvider.onboardingProcessName == "Onboarding";
 
     if (authProvider.isOfficer) {
