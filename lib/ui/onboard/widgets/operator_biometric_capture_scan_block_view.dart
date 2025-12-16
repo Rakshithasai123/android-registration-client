@@ -16,7 +16,7 @@ import 'package:registration_client/provider/global_provider.dart';
 import 'package:registration_client/utils/app_config.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../../../provider/auth_provider.dart';
+import 'package:registration_client/provider/auth_provider.dart';
 
 class OperatorBiometricCaptureScanBlockView extends StatefulWidget {
   const OperatorBiometricCaptureScanBlockView({super.key});
