@@ -27,7 +27,7 @@ class _OperatorBiometricsCaptureState
   late GlobalProvider globalProvider;
   bool isSavingBiometrics = false;
   late BiometricCaptureControlProvider biometricCaptureControlProvider;
-  late AppLocalizations appLocalizations = AppLocalizations.of(context)!;
+ 
 
   @override
   void initState() {
