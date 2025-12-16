@@ -28,7 +28,7 @@ class _GlobalConfigSettingsTabState extends State<GlobalConfigSettingsTab> {
   String? errorMessage;
   Map<String, String> originalLocalConfig = {};
   Map<String, String> currentLocalConfig = {};
-  bool isModified = false;
+  
 
   @override
   void initState() {
@@ -174,15 +174,14 @@ class _GlobalConfigSettingsTabState extends State<GlobalConfigSettingsTab> {
         ),
       );
 
-      // Save configuration changes
+    // Save configuration changes
       await GlobalConfigSettingsApi().modifyConfigurations(localValues);
-      originalLocalConfig = Map<String, String>.from(localConfigurations);
-      currentLocalConfig = Map<String, String>.from(localConfigurations);
 
-      // Update local configurations with the saved values
+    // Update local configurations with the saved values
       setState(() {
         localConfigurations.addAll(localValues);
         localValues.clear();
+        originalLocalConfig = Map<String, String>.from(localConfigurations);
       });
 
       // Hide loading indicator
