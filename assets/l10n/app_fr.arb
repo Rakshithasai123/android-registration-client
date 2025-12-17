@@ -333,7 +333,7 @@
   "additional_info_req_id": "Identifiant de la demande d'information supplémentaire",
   "no_access_to_this_page": "Vous n'avez pas accès à cette page",
   "scheduled_job_settings": "Paramètres des tâches planifiées",
-  "server_unreachable": "Le serveur d’authentification est inaccessible. Veuillez réessayer plus tard"
+  "server_unreachable": "Le serveur d’authentification est inaccessible. Veuillez réessayer plus tard",
   "submit_changes": "Soumettre les modifications",
   "local_preferences_saved_msg": "Les préférences locales ont été enregistrées avec succès. Le redémarrage de l'application est nécessaire pour voir les changements. Voulez-vous quitter maintenant ?"
 }
