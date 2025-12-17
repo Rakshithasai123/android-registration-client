@@ -243,12 +243,9 @@ class _OperatorBiometricsCaptureState
 
                   String isOperatorBiometricSaved = "";
                   await BiometricsApi().saveOperatorBiometrics().timeout(
-                    Duration(seconds: 10),
+                    const Duration(seconds: 60),
                     onTimeout: () {
-                      setState(() {
-                        isSavingBiometrics = false;
-                      });
-                      return "";
+                      return "TIMEOUT";
                     },
                   ).then((value) {
                     isOperatorBiometricSaved = value;
@@ -257,7 +254,8 @@ class _OperatorBiometricsCaptureState
                   setState(() {
                     isSavingBiometrics = false;
                   });
-                  if (isOperatorBiometricSaved != "") {
+                  
+                  if (isOperatorBiometricSaved == "OK") {
                     await context.read<RegistrationTaskProvider>().getLastUpdatedTime();
                     Navigator.pop(context);
                     showDialog<String>(
@@ -318,17 +316,6 @@ class _OperatorBiometricsCaptureState
                   }
                 }
               },
-              child: isSavingBiometrics
-                  ? CircularProgressIndicator(
-                color: appWhite,
-              )
-                  : Text(
-                appLocalizations.verify_and_save,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyLarge
-                    ?.copyWith(fontSize: 26.h, color: pureWhite),
-              ),
               style: OutlinedButton.styleFrom(
                   backgroundColor: (
                       ((globalProvider.operatorOnboardingAttributes
@@ -383,6 +370,17 @@ class _OperatorBiometricsCaptureState
                               biometricCaptureControlProvider.face.isScanned) : true))
                       ? solidPrimary
                       : secondaryColors.elementAt(22)),
+              child: isSavingBiometrics
+                  ? const CircularProgressIndicator(
+                color: appWhite,
+              )
+                  : Text(
+                appLocalizations.verify_and_save,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyLarge
+                    ?.copyWith(fontSize: 26.h, color: pureWhite),
+              ),
             ),
           ),
         ),
