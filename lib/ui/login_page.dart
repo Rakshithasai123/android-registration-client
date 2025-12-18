@@ -197,8 +197,8 @@ class _LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
                             padding: EdgeInsets.symmetric(
                               horizontal: isMobile
                                   ? isMobileSize
-                                  ? 20.w
-                                  : 92.w
+                                      ? 20.w
+                                      : 92.w
                                   : 80.w,
                             ),
                             child: isMobile ? _mobileView() : _tabletView(),
@@ -212,15 +212,15 @@ class _LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
             ),
             isMachineKeysDialogOpen
                 ? Container(
-              color: Colors.transparent.withOpacity(0.5),
-              child: Center(
-                child: MachineKeys(
-                  onCloseComponent: () {
-                    _toggleMachineKeysDialog();
-                  },
-                ),
-              ),
-            )
+                    color: Colors.transparent.withOpacity(0.5),
+                    child: Center(
+                      child: MachineKeys(
+                        onCloseComponent: () {
+                          _toggleMachineKeysDialog();
+                        },
+                      ),
+                    ),
+                  )
                 : const SizedBox(),
           ],
         ),
@@ -410,7 +410,7 @@ class _LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
   Widget _welcomeTextComponent() {
     return Column(
       crossAxisAlignment:
-      isMobile ? CrossAxisAlignment.center : CrossAxisAlignment.start,
+          isMobile ? CrossAxisAlignment.center : CrossAxisAlignment.start,
       children: [
         Text(
           appLocalizations.welcome,
@@ -443,7 +443,7 @@ class _LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
   Widget _appCombinedTextComponent() {
     return Column(
       crossAxisAlignment:
-      isMobile ? CrossAxisAlignment.center : CrossAxisAlignment.start,
+          isMobile ? CrossAxisAlignment.center : CrossAxisAlignment.start,
       children: [
         _welcomeTextComponent(),
         SizedBox(
@@ -458,8 +458,8 @@ class _LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
     return Container(
       width: isMobile
           ? isMobileSize
-          ? 358.w
-          : 616.w
+              ? 358.w
+              : 616.w
           : 424.w,
       padding: EdgeInsets.symmetric(
         horizontal: isMobile && !isMobileSize ? 30.w : 20.w,
@@ -493,73 +493,73 @@ class _LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
             ),
           ],
           !context.watch<AuthProvider>().isValidUser &&
-              !context.watch<AuthProvider>().isNetworkPresent
+                  !context.watch<AuthProvider>().isNetworkPresent
               ? UsernameComponent(
-            onTap: () {
-              _getUserValidation();
-            },
-            isDisabled:
-            username.trim().isEmpty || username.trim().length > 50,
-            languages: context.watch<GlobalProvider>().languages,
-            isMobile: isMobile,
-            mp: context.watch<GlobalProvider>().codeToLanguageMapper,
-            onChanged: (v) {
-              setState(() {
-                username = v;
-              });
-            },
-          )
+                  onTap: () {
+                    _getUserValidation();
+                  },
+                  isDisabled:
+                      username.trim().isEmpty || username.trim().length > 50,
+                  languages: context.watch<GlobalProvider>().languages,
+                  isMobile: isMobile,
+                  mp: context.watch<GlobalProvider>().codeToLanguageMapper,
+                  onChanged: (v) {
+                    setState(() {
+                      username = v;
+                    });
+                  },
+                )
               : const SizedBox(),
           context.watch<AuthProvider>().isValidUser &&
-              !context.watch<AuthProvider>().isNetworkPresent
+                  !context.watch<AuthProvider>().isNetworkPresent
               ? PasswordComponent(
-            isDisabled: password.isEmpty || password.length > 50,
-            onTapLogin: () async {
-              await _getLoginAction();
-              await globalProvider.getThresholdValues();
-            },
-            isMobile: isMobile,
-            onTapBack: () {
-              password = "";
-              FocusManager.instance.primaryFocus?.unfocus();
-              authProvider.setIsValidUser(false);
-              setState(() {
-                username = '';
-                authProvider.setIsSyncing(false);
-              });
-            },
-            onTapForgotPassword: () async {
-              await connectivityProvider.checkNetworkConnection();
-              bool isConnected = connectivityProvider.isConnected;
-              if (isConnected) {
-                await authProvider.getForgotPasswordUrl();
-                String res = authProvider.forgotPasswordUrl;
-                await goToUrl(res);
-              } else {
-                authProvider.setIsNetworkPresent(true);
-              }
-            },
-            onChanged: (v) {
-              setState(() {
-                password = v;
-              });
-            },
-            isLoggingIn: authProvider.isSyncing,
-          )
+                  isDisabled: password.isEmpty || password.length > 50,
+                  onTapLogin: () async {
+                    await _getLoginAction();
+                    await globalProvider.getThresholdValues();
+                  },
+                  isMobile: isMobile,
+                  onTapBack: () {
+                    password = "";
+                    FocusManager.instance.primaryFocus?.unfocus();
+                    authProvider.setIsValidUser(false);
+                    setState(() {
+                      username = '';
+                      authProvider.setIsSyncing(false);
+                    });
+                  },
+                  onTapForgotPassword: () async {
+                    await connectivityProvider.checkNetworkConnection();
+                    bool isConnected = connectivityProvider.isConnected;
+                    if (isConnected) {
+                      await authProvider.getForgotPasswordUrl();
+                      String res = authProvider.forgotPasswordUrl;
+                      await goToUrl(res);
+                    } else {
+                      authProvider.setIsNetworkPresent(true);
+                    }
+                  },
+                  onChanged: (v) {
+                    setState(() {
+                      password = v;
+                    });
+                  },
+                  isLoggingIn: authProvider.isSyncing,
+                )
               : const SizedBox(),
           context.watch<AuthProvider>().isNetworkPresent
               ? NetworkComponent(
-              isMobile: isMobile,
-              onTapRetry: () async {
-                await connectivityProvider.checkNetworkConnection();
-                bool isConnected = connectivityProvider.isConnected;
-                if (isConnected) {
-                  authProvider.setIsNetworkPresent(false);
-                  await authProvider.getForgotPasswordUrl();
-                  String res = authProvider.forgotPasswordUrl;
-                  await goToUrl(res);
-                }
-              })
+                  isMobile: isMobile,
+                  onTapRetry: () async {
+                    await connectivityProvider.checkNetworkConnection();
+                    bool isConnected = connectivityProvider.isConnected;
+                    if (isConnected) {
+                      authProvider.setIsNetworkPresent(false);
+                      await authProvider.getForgotPasswordUrl();
+                      String res = authProvider.forgotPasswordUrl;
+                      await goToUrl(res);
+                    }
+                  })
               : const SizedBox(),
         ],
       ),
@@ -661,9 +661,9 @@ class _LoginPageState extends State<LoginPage> with WidgetsBindingObserver {
                       width: isMobile && isMobileSize ? 40.w : 100.w,
                       child: syncProvider.isAllSyncSuccessful()
                           ? SvgPicture.asset(
-                          "assets/svg/Success Message Icon.svg")
+                              "assets/svg/Success Message Icon.svg")
                           : SvgPicture.asset(
-                          "assets/svg/Failed Message Icon.svg"),
+                              "assets/svg/Failed Message Icon.svg"),
                     ),
                     SizedBox(
                       height: isMobile ? 2.h : 5.h,
