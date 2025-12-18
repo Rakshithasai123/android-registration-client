@@ -130,7 +130,7 @@ public class AuthenticationApi implements AuthResponsePigeon.AuthResponseApi {
                     String errorCode = "";
                     if (error == null) {
                         errorCode = "REG_TRY_AGAIN";
-                    } else if (error.getMessage().equals("Machine not found")) {
+                    } else if ("KER-SNC-155".equals(error.getErrorCode())) {
                         errorCode = "REG_MACHINE_NOT_FOUND";
                     } else if ("KER-SYN-AUTH-001".equals(error.getErrorCode())) {
                         errorCode = "KER_SYN_AUTH_001";
