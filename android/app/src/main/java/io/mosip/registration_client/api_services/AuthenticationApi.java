@@ -133,7 +133,6 @@ public class AuthenticationApi implements AuthResponsePigeon.AuthResponseApi {
                     } else if (error.getMessage().equals("Machine not found")) {
                         errorCode = "REG_MACHINE_NOT_FOUND";
                     } else if ("KER-SYN-AUTH-001".equals(error.getErrorCode())) {
-                        // ICU-safe error code (no hyphens)
                         errorCode = "KER_SYN_AUTH_001";
                     } else {
                         errorCode = "REG_TRY_AGAIN";
