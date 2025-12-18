@@ -28,7 +28,7 @@ class _GlobalConfigSettingsTabState extends State<GlobalConfigSettingsTab> {
   String? errorMessage;
   Map<String, String> originalLocalConfig = {};
   Map<String, String> currentLocalConfig = {};
-
+  
 
   @override
   void initState() {
@@ -174,10 +174,10 @@ class _GlobalConfigSettingsTabState extends State<GlobalConfigSettingsTab> {
         ),
       );
 
-      // Save configuration changes
+    // Save configuration changes
       await GlobalConfigSettingsApi().modifyConfigurations(localValues);
 
-      // Update local configurations with the saved values
+    // Update local configurations with the saved values
       setState(() {
         localConfigurations.addAll(localValues);
         localValues.clear();
