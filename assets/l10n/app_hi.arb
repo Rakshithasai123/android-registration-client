@@ -329,9 +329,7 @@
   "enter_additional_info_req_id": "अतिरिक्त जानकारी अनुरोध आईडी दर्ज करें",
   "additional_info_req_id": "अतिरिक्त जानकारी अनुरोध आईडी",
   "no_access_to_this_page": "आपको इस पृष्ठ तक पहुँच नहीं है",
-  "server_unreachable": "प्रमाणीकरण सर्वर उपलब्ध नहीं है। कृपया बाद में पुनः प्रयास करें",
   "scheduled_job_settings": "अनुसूचित कार्य सेटिंग्स",
-  "server_unreachable": "प्रमाणीकरण सर्वर उपलब्ध नहीं है। कृपया बाद में पुनः प्रयास करें",
   "doc_size_exceeded": "फ़ाइल का आकार सीमा {size} से अधिक है",
   "@doc_size_exceeded": {
        "placeholders": {
