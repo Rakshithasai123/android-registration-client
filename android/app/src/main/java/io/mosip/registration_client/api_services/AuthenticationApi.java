@@ -136,6 +136,7 @@ public class AuthenticationApi implements AuthResponsePigeon.AuthResponseApi {
                         errorCode = "REG_MACHINE_NOT_FOUND";
                     } else if ("KER-SYN-AUTH-001".equals(error.getErrorCode())) {
                         errorCode = "KER_SYN_AUTH_001";
+                        loginService.recordFailedLoginAttempt(username);
                     } else {
                         errorCode = "REG_TRY_AGAIN";
                     }
