@@ -127,11 +127,11 @@ public class AuthenticationApi implements AuthResponsePigeon.AuthResponseApi {
                             error = new ServiceError("", e.getMessage());
                             Log.e(getClass().getSimpleName(), "Failed to save auth token", e);
                         }
-                    }
-                    loginService.recordFailedLoginAttempt(username);
+                    }                    
                     String errorCode = "";
                     if (error == null) {
                         errorCode = "REG_TRY_AGAIN";
+                        loginService.recordFailedLoginAttempt(username);
                     } else if ("KER-SNC-155".equals(error.getErrorCode())) {
                         errorCode = "REG_MACHINE_NOT_FOUND";
                     } else if ("KER-SYN-AUTH-001".equals(error.getErrorCode())) {
