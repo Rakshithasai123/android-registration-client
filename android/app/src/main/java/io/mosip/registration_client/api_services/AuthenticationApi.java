@@ -127,7 +127,8 @@ public class AuthenticationApi implements AuthResponsePigeon.AuthResponseApi {
                             error = new ServiceError("", e.getMessage());
                             Log.e(getClass().getSimpleName(), "Failed to save auth token", e);
                         }
-                    }                    
+                    }   
+                    
                     String errorCode = "";
                     if (error == null) {
                         errorCode = "REG_TRY_AGAIN";
