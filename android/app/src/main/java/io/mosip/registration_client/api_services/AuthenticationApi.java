@@ -128,15 +128,14 @@ public class AuthenticationApi implements AuthResponsePigeon.AuthResponseApi {
                             Log.e(getClass().getSimpleName(), "Failed to save auth token", e);
                         }
                     }
-
+                    loginService.recordFailedLoginAttempt(username);
                     String errorCode = "";
                     if (error == null) {
                         errorCode = "REG_TRY_AGAIN";
                     } else if ("KER-SNC-155".equals(error.getErrorCode())) {
                         errorCode = "REG_MACHINE_NOT_FOUND";
                     } else if ("KER-SYN-AUTH-001".equals(error.getErrorCode())) {
-                        errorCode = "KER_SYN_AUTH_001";
-                        loginService.recordFailedLoginAttempt(username);
+                        errorCode = "KER_SYN_AUTH_001";                       
                     } else {
                         errorCode = "REG_TRY_AGAIN";
                     }
