@@ -22,11 +22,30 @@ public enum AuditEvent {
     LOADED_DATA_ENTRY_LANG("REG-LOAD-006", USER_EVENT.getCode(), "LOADED_DATA_ENTRY_LANG", "DataEntry Language selection activity loaded"),
 
     //Login
-    LOGIN_WITH_PASSWORD("REG-AUTH-001", USER_EVENT.getCode(), "LOGIN_WITH_PASSWORD",
+    LOGIN_AUTHENTICATE_USER_ID("REG-AUTH-001", USER_EVENT.getCode(), "LOGIN_AUTHENTICATE_USER_ID",
+            "Login authenticating user id: Click of Submit"),
+    LOGIN_WITH_PASSWORD("REG-AUTH-002", USER_EVENT.getCode(), "LOGIN_WITH_PASSWORD",
             "Login with password: Click of Submit"),
-    ABOUT_CLIENT("REG-AUTH-002", USER_EVENT.getCode(), "ABOUT_CLIENT", "Press and hold on logo to navigate: About activity"),
-    LOGOUT_USER("REG-AUTH-003", USER_EVENT.getCode(), "LOGOUT_USER", "Logout"),
+    ABOUT_CLIENT("REG-AUTH-003", USER_EVENT.getCode(), "ABOUT_CLIENT", "Press and hold on logo to navigate: About activity"),
+    LOGOUT_USER("REG-AUTH-009", USER_EVENT.getCode(), "LOGOUT_USER", "Logout"),
 
+    // Navigation
+    NAV_LOST_UIN("REG-EVT-001", USER_EVENT.getCode(), "NAV_LOST_UIN", "Click of navigation link: Lost UIN"),
+    NAV_NEW_REG("REG-EVT-002", USER_EVENT.getCode(), "NAV_NEW_REG", "Click of navigation link: New Registration"),
+    NAV_UIN_UPDATE("REG-EVT-003", USER_EVENT.getCode(), "NAV_UIN_UPDATE", "Navigation link: UIN Update"),
+    NAV_APPROVE_REG("REG-EVT-004", USER_EVENT.getCode(), "NAV_APPROVE_REG", "Navigation link: Approve Registration"),
+    NAV_UPLOAD_PACKETS("REG-EVT-005", USER_EVENT.getCode(), "NAV_UPLOAD_PACKETS", "Navigation link: Upload Packets"),
+    NAV_CORRECTION("REG-EVT-007", USER_EVENT.getCode(), "NAV_CORRECTION", "Navigation link: CORRECTION"),
+    NAV_SYNC_PACKETS("REG-NAV-001", USER_EVENT.getCode(), "NAV_SYNC_PACKETS", "Navigation link: Sync Packet IDs"),
+    NAV_SYNC_DATA("REG-NAV-003", USER_EVENT.getCode(), "NAV_SYNC_DATA", "Navigation link: Sync Data"),
+    NAV_DOWNLOAD_PRE_REG_DATA("REG-NAV-004", USER_EVENT.getCode(), "NAV_DOWNLOAD_PRE_REG_DATA",
+            "Navigation link: Download Pre-registration Data"),
+    NAV_GEO_LOCATION("REG-NAV-005", USER_EVENT.getCode(), "NAV_GEO_LOCATION", "Navigation link: Geo-location"),
+    NAV_ON_BOARD_USER("REG-NAV-006", USER_EVENT.getCode(), "NAV_ON_BOARD_USER", "Navigation link: On-board Users"),
+    NAV_HOME("REG-NAV-007", SYSTEM_EVENT.getCode(), "NAV_HOME", "Navigation link: Home"),
+    NAV_REDIRECT_HOME("REG-NAV-008", SYSTEM_EVENT.getCode(), "NAV_REDIRECT_HOME", "Navigation link: Redirect to Home"),
+    NAV_ON_BOARD_DEVICES("REG-NAV-009", USER_EVENT.getCode(), "NAV_ON_BOARD_DEVICES",
+            "Navigation link: On-board Devices"),
     //Home
     MASTER_DATA_SYNC("REG-HOME-001", USER_EVENT.getCode(), "MASTER_DATA_SYNC", "Master data sync clicked"),
     NEW_REGISTRATION("REG-HOME-002", USER_EVENT.getCode(), "NEW_REGISTRATION", "New registration clicked"),
@@ -44,27 +63,65 @@ public enum AuditEvent {
     CANCEL_JOB("REG-JOB-003", USER_EVENT.getCode(), "CANCEL_JOB", "Cancel scheduled job service clicked"),
 
     //REGISTRATION USER EVENT
-    REGISTRATION_START("REG-EVT-001", USER_EVENT.getCode(), "REGISTRATION_START", "Registration start event initiated"),
-    LOADED_REGISTRATION_SCREEN("REG-EVT-002", USER_EVENT.getCode(), "LOADED_REGISTRATION_SCREEN", "Registration screen activity loaded"),
-    NEXT_BUTTON_CLICKED("REG-EVT-003", USER_EVENT.getCode(), "NEXT_BUTTON_CLICKED", "Next button clicked"),
-    DOCUMENT_SCAN("REG-EVT-004", USER_EVENT.getCode(), "DOCUMENT_SCAN", "Scan document button clicked"),
-    DOCUMENT_SCAN_FAILED("REG-EVT-005", USER_EVENT.getCode(), "DOCUMENT_SCAN_FAILED", "Document scan failed"),
+    REGISTRATION_START("REG-EVT-104", USER_EVENT.getCode(), "REGISTRATION_START", "Registration start event initiated"),
+    LOADED_REGISTRATION_SCREEN("REG-EVT-105", USER_EVENT.getCode(), "LOADED_REGISTRATION_SCREEN", "Registration screen activity loaded"),
+    NEXT_BUTTON_CLICKED("REG-EVT-069", USER_EVENT.getCode(), "NEXT_BUTTON_CLICKED", "Next button clicked"),
+    DOCUMENT_SCAN("REG-EVT-106", USER_EVENT.getCode(), "DOCUMENT_SCAN", "Scan document button clicked"),
+    DOCUMENT_SCAN_FAILED("REG-EVT-050", USER_EVENT.getCode(), "DOCUMENT_SCAN_FAILED", "Document scan failed"),
     DOCUMENT_PREVIEW("REG-EVT-006", USER_EVENT.getCode(), "DOCUMENT_PREVIEW", "Document preview button clicked"),
-    BIOMETRIC_CAPTURE("REG-EVT-007", USER_EVENT.getCode(), "BIOMETRIC_CAPTURE_INITIATED", "Biometric capture initiated"),
-    LOADED_REGISTRATION_PREVIEW("REG-EVT-008", USER_EVENT.getCode(), "LOADED_REGISTRATION_PREVIEW", "Registration preview loaded"),
-    CREATE_PACKET_AUTH("REG-EVT-009", USER_EVENT.getCode(), "CREATE_PACKET_AUTH", "Packet create authentication clicked"),
-    CREATE_PACKET_AUTH_FAILED("REG-EVT-010", USER_EVENT.getCode(), "CREATE_PACKET_AUTH_FAILED", "Packet create authentication failed"),
-    LOADED_ACKNOWLEDGEMENT_SCREEN("REG-EVT-011", USER_EVENT.getCode(), "LOADED_ACKNOWLEDGEMENT_SCREEN", "Acknowledgement Activity loaded"),
-    PRINT_ACKNOWLEDGEMENT("REG-EVT-012", USER_EVENT.getCode(), "PRINT_ACKNOWLEDGEMENT", "Print acknowledgement"),
+    BIOMETRIC_CAPTURE("REG-EVT-107", USER_EVENT.getCode(), "BIOMETRIC_CAPTURE_INITIATED", "Biometric capture initiated"),
+    LOADED_REGISTRATION_PREVIEW("REG-EVT-108", USER_EVENT.getCode(), "LOADED_REGISTRATION_PREVIEW", "Registration preview loaded"),
+    CREATE_PACKET_AUTH("REG-EVT-109", USER_EVENT.getCode(), "CREATE_PACKET_AUTH", "Packet create authentication clicked"),
+    CREATE_PACKET_AUTH_FAILED("REG-EVT-043", USER_EVENT.getCode(), "CREATE_PACKET_AUTH_FAILED", "Packet create authentication failed"),
+    LOADED_ACKNOWLEDGEMENT_SCREEN("REG-EVT-044", USER_EVENT.getCode(), "LOADED_ACKNOWLEDGEMENT_SCREEN", "Acknowledgement Activity loaded"),
+    PRINT_ACKNOWLEDGEMENT("REG-EVT-045", USER_EVENT.getCode(), "PRINT_ACKNOWLEDGEMENT", "Print acknowledgement"),
+
+    // Registration : Demographics Details
+    REG_DEMO_CAPTURE("REG-EVT-007", USER_EVENT.getCode(), "REG_DEMO_NEXT", "FvStarted capturing demographic details"),
+    REG_DEMO_PRE_REG_DATA_FETCH("REG-EVT-008", USER_EVENT.getCode(), "REG_DEMO_PRE_REG_DATA_FETCH", "Pre-registration: Fetch data for selected Pre-registration"),
+    REG_DEMO_NEXT("REG-EVT-105", USER_EVENT.getCode(), "REG_DEMO_NEXT", "Click of Next after capturing demographic details"),
+    // Registration Preview
+    REG_PREVIEW_DEMO_EDIT("REG-EVT-043", USER_EVENT.getCode(), "REG_PREVIEW_DEMO_EDIT", "Click of Edit demographics"),
+    REG_PREVIEW_DOC_EDIT("REG-EVT-044", USER_EVENT.getCode(), "REG_PREVIEW_DOC_EDIT", "Click of Edit documents"),
+    REG_PREVIEW_BIO_EDIT("REG-EVT-045", USER_EVENT.getCode(), "REG_PREVIEW_BIO_EDIT", "Click of Biometrics Edit"),
+    REG_PREVIEW_SUBMIT("REG-EVT-046", USER_EVENT.getCode(), "REG_PREVIEW_SUBMIT",
+            "Click of Next after Registration Preview"),
+    REG_PREVIEW_BACK("REG-EVT-047", USER_EVENT.getCode(), "REG_PREVIEW_BACK","Click of Back from registration preview screen"),
 
     //REGISTRATION SYSTEM EVENT
-    DISCOVER_SBI_FAILED("REG-EVT-013", SYSTEM_EVENT.getCode(), "DISCOVER_SBI_FAILED", "SBI discovery failed"),
-    DEVICE_INFO_FAILED("REG-EVT-014", SYSTEM_EVENT.getCode(), "DEVICE_INFO_FAILED", "Device info failed"),
-    R_CAPTURE_FAILED("REG-EVT-015", SYSTEM_EVENT.getCode(), "R_CAPTURE_FAILED", "R_capture failed"),
-    DISCOVER_SBI_PARSE_FAILED("REG-EVT-016", SYSTEM_EVENT.getCode(), "DISCOVER_SBI_PARSE_FAILED", "SBI discovery response parsing failed"),
-    DEVICE_INFO_PARSE_FAILED("REG-EVT-017", SYSTEM_EVENT.getCode(), "DEVICE_INFO_PARSE_FAILED", "Device info response parsing failed"),
-    R_CAPTURE_PARSE_FAILED("REG-EVT-018", SYSTEM_EVENT.getCode(), "R_CAPTURE_PARSE_FAILED", "R_capture response parsing failed"),
-    CREATE_PACKET_FAILED("REG-EVT-019", USER_EVENT.getCode(), "CREATE_PACKET_FAILED", "Packet creation failed");
+    DISCOVER_SBI_FAILED("REG-EVT-070", SYSTEM_EVENT.getCode(), "DISCOVER_SBI_FAILED", "SBI discovery failed"),
+    DEVICE_INFO_FAILED("REG-EVT-049", SYSTEM_EVENT.getCode(), "DEVICE_INFO_FAILED", "Device info failed"),
+    R_CAPTURE_FAILED("REG-EVT-050", SYSTEM_EVENT.getCode(), "R_CAPTURE_FAILED", "R_capture failed"),
+    DISCOVER_SBI_PARSE_FAILED("REG-EVT-051", SYSTEM_EVENT.getCode(), "DISCOVER_SBI_PARSE_FAILED", "SBI discovery response parsing failed"),
+    DEVICE_INFO_PARSE_FAILED("REG-EVT-052", SYSTEM_EVENT.getCode(), "DEVICE_INFO_PARSE_FAILED", "Device info response parsing failed"),
+    R_CAPTURE_PARSE_FAILED("REG-EVT-053", SYSTEM_EVENT.getCode(), "R_CAPTURE_PARSE_FAILED", "R_capture response parsing failed"),
+    CREATE_PACKET_FAILED("REG-EVT-054", USER_EVENT.getCode(), "CREATE_PACKET_FAILED", "Packet creation failed"),
+
+    // Packet Upload
+    PACKET_UPLOAD("REG-EVT-083", USER_EVENT.getCode(), "PACKET_UPLOAD", "Upload the local packets to the server"),
+    // Registration : Documents
+    REG_DOC_POA_SCAN("REG-EVT-010", USER_EVENT.getCode(), "REG_DOC_POA_SCAN", "PoA: Click of Scan"),
+    REG_DOC_POA_VIEW("REG-EVT-011", USER_EVENT.getCode(), "REG_DOC_POA_VIEW", "PoA: View"),
+    REG_DOC_POA_DELETE("REG-EVT-012", USER_EVENT.getCode(), "REG_DOC_POA_DELETE", "PoA: Delete"),
+    REG_DOC_POI_SCAN("REG-EVT-013", USER_EVENT.getCode(), "REG_DOC_POI_SCAN", "PoI: Click of Scan"),
+    REG_DOC_POI_VIEW("REG-EVT-014", USER_EVENT.getCode(), "REG_DOC_POI_VIEW", "PoI: View"),
+    REG_DOC_POI_DELETE("REG-EVT-015", USER_EVENT.getCode(), "REG_DOC_POI_DELETE", "PoI: Delete"),
+    REG_DOC_POR_SCAN("REG-EVT-016", USER_EVENT.getCode(), "REG_DOC_POR_SCAN", "PoR: Click of Scan"),
+    REG_DOC_POR_VIEW("REG-EVT-017", USER_EVENT.getCode(), "REG_DOC_POR_VIEW", "PoR: View"),
+    REG_DOC_POR_DELETE("REG-EVT-018", USER_EVENT.getCode(), "REG_DOC_POR_DELETE", "PoR: Delete"),
+    REG_DOC_POB_SCAN("REG-EVT-019", USER_EVENT.getCode(), "REG_DOC_POB_SCAN", "PoB: Click of Scan"),
+    REG_DOC_POB_VIEW("REG-EVT-020", USER_EVENT.getCode(), "REG_DOC_POB_VIEW", "PoB: View"),
+    REG_DOC_POB_DELETE("REG-EVT-021", USER_EVENT.getCode(), "REG_DOC_POB_DELETE", "PoB: Delete"),
+    REG_DOC_POE_SCAN("REG-EVT-022", USER_EVENT.getCode(), "REG_DOC_POB_SCAN", "PoB: Click of Scan"),
+    REG_DOC_POE_VIEW("REG-EVT-023", USER_EVENT.getCode(), "REG_DOC_POB_VIEW", "PoB: View"),
+    REG_DOC_POE_DELETE("REG-EVT-024", USER_EVENT.getCode(), "REG_DOC_POB_DELETE", "PoB: Delete"),
+    REG_DOC_NEXT("REG-EVT-025", USER_EVENT.getCode(), "REG_DOC_NEXT", "Click of Next after uploading documents"),
+    REG_DOC_BACK("REG-EVT-026", USER_EVENT.getCode(), "REG_DOC_BACK", "Click of Back to demographic details"),
+
+    // MDM
+    REG_DOC_SCAN("REG-EVT-089", USER_EVENT.getCode(), "REG_DOC_SCAN", "Doc: Click of Scan"),
+    REG_DOC_VIEW("REG-EVT-090", USER_EVENT.getCode(), "REG_DOC_VIEW", "Doc: View"),
+    REG_DOC_DELETE("REG-EVT-091", USER_EVENT.getCode(), "REG_DOC_DELETE", "Doc: Delete");
 
     AuditEvent(String id, String type, String name, String description) {
         this.id = id;

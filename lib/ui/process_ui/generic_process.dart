@@ -99,7 +99,7 @@ class _GenericProcessState extends State<GenericProcess>
         }
       },
     ));
-    _registrationScreenLoadedAudit();
+    //_registrationScreenLoadedAudit();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await _fetchLocation();
     });
@@ -225,7 +225,7 @@ class _GenericProcessState extends State<GenericProcess>
   }
 
   _nextButtonClickedAudit() async {
-    await globalProvider.getAudit("REG-EVT-003", "REG-MOD-103");
+    await globalProvider.getAudit("REG-EVT-069", "REG-MOD-103");
   }
 
   setScrollToTop() {
@@ -238,6 +238,13 @@ class _GenericProcessState extends State<GenericProcess>
   }
 
   Future<bool> onWillPop(Process process) async {
+    final index = globalProvider.newProcessTabIndex;
+    if (index > 0 && index < process.screens!.length) {
+      final currentScreen = process.screens![index]!;
+      if (currentScreen.name == "Documents") {
+        globalProvider.getAudit("REG-EVT-026", "REG-MOD-103");
+      }
+    }
     if (globalProvider.newProcessTabIndex > 0 &&
         globalProvider.newProcessTabIndex <
             process.screens!.length + postRegistrationTabs.length - 1) {
@@ -680,7 +687,13 @@ class _GenericProcessState extends State<GenericProcess>
                 templateTitleMap!,
               );
             }
-
+            if (globalProvider.newProcessTabIndex < size) {
+              final currentScreen =
+              process.screens![globalProvider.newProcessTabIndex]!;
+              if (currentScreen.name == "Documents") {
+                globalProvider.getAudit("REG-EVT-025", "REG-MOD-103");
+              }
+            }
             globalProvider.newProcessTabIndex =
                 globalProvider.newProcessTabIndex + 1;
           }

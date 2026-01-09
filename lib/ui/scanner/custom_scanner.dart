@@ -36,9 +36,10 @@ class _CustomScannerState extends State<CustomScanner> {
   CropMode mode = CropMode.rect;
   double? _aspectRatio;
   ImageFormat format = ImageFormat.jpg;
+  bool _previewAuditLogged = false;
 
   _documentScanFailedAudit() async {
-    await context.read<GlobalProvider>().getAudit("REG-EVT-005", "REG-MOD-103");
+    await context.read<GlobalProvider>().getAudit("REG-EVT-049", "REG-MOD-103");
   }
 
   _documentPreviewAudit() async {
@@ -110,7 +111,7 @@ class _CustomScannerState extends State<CustomScanner> {
         : const SizedBox.shrink();
 
     if (_pickedFile != null) {
-      _documentPreviewAudit();
+      //_documentPreviewAudit();
       return Column(
         children: [
           Expanded(
@@ -200,6 +201,11 @@ class _CustomScannerState extends State<CustomScanner> {
       final pickedFile = await ImagePicker().pickImage(source: ImageSource.camera);
       if (pickedFile != null) {
         _pickedFile = await pickedFile.readAsBytes();
+        if (!_previewAuditLogged) {
+          _previewAuditLogged = true;
+          context.read<GlobalProvider>()
+              .getAudit("REG-EVT-006", "REG-MOD-103");
+        }
         setState(() {});
       } else {
         Navigator.pop(context);

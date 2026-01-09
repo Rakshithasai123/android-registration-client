@@ -132,7 +132,7 @@ class _HomePageState extends State<HomePage> {
         }
       }
       globalProvider.createRegistrationLanguageMap();
-      globalProvider.getAudit("REG-HOME-002", "REG-MOD-102");
+      //globalProvider.getAudit("REG-HOME-002", "REG-MOD-102");
       showDialog(
         context: context,
         builder: (BuildContext context) => LanguageSelector(

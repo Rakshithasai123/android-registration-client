@@ -70,7 +70,8 @@ import io.mosip.registration_client.MainActivity;
 import io.mosip.registration_client.UploadBackgroundService;
 import io.mosip.registration_client.model.MasterDataSyncPigeon;
 import io.mosip.registration_client.utils.NetworkUtils;
-
+import io.mosip.registration.clientmanager.constant.AuditEvent;
+import io.mosip.registration.clientmanager.constant.Components;
 @Singleton
 public class MasterDataSyncApi implements MasterDataSyncPigeon.SyncApi {
     private static final String MASTER_DATA_LAST_UPDATED = "masterdata.lastupdated";
@@ -224,6 +225,7 @@ public class MasterDataSyncApi implements MasterDataSyncPigeon.SyncApi {
 
     @Override
     public void getMasterDataSync(@NonNull Boolean isManualSync, @NonNull String jobId, @NonNull MasterDataSyncPigeon.Result<MasterDataSyncPigeon.Sync> result) {
+        auditManagerService.audit(AuditEvent.NAV_SYNC_DATA, Components.REGISTRATION);
         try {
             masterDataService.syncMasterData(() -> {
                 Log.i(TAG, "Master Data Sync Completed.");

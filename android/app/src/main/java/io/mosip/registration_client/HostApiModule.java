@@ -72,7 +72,7 @@ import io.mosip.registration_client.api_services.MasterDataSyncApi;
 import io.mosip.registration_client.api_services.ProcessSpecDetailsApi;
 import io.mosip.registration_client.api_services.RegistrationApi;
 import io.mosip.registration_client.api_services.UserDetailsApi;
-
+import io.mosip.registration.clientmanager.repository.UserDetailRepository;
 @Module
 public class HostApiModule {
 
@@ -160,8 +160,8 @@ public class HostApiModule {
     @Singleton
     PacketAuthenticationApi getPacketAuthenticationApi(SyncRestService syncRestService, SyncRestUtil syncRestFactory,
                                                        LoginService loginService, PacketService packetService, RegistrationRepository registrationRepository,
-                                                       AuditManagerService auditManagerService) {
-        return new PacketAuthenticationApi(syncRestService, syncRestFactory, loginService, packetService,registrationRepository, auditManagerService);
+                                                       AuditManagerService auditManagerService,UserDetailRepository userDetailRepository) {
+        return new PacketAuthenticationApi(syncRestService, syncRestFactory, loginService, packetService,registrationRepository, auditManagerService,userDetailRepository);
     }
 
     @Provides

@@ -37,7 +37,8 @@ import io.mosip.registration_client.utils.CustomToast;
 import io.mosip.registration_client.MainActivity;
 import io.mosip.registration_client.R;
 import io.mosip.registration_client.model.PacketAuthPigeon;
-
+import io.mosip.registration.clientmanager.repository.UserDetailRepository;
+import io.mosip.registration.clientmanager.entity.UserDetail;
 @Singleton
 public class PacketAuthenticationApi implements PacketAuthPigeon.PacketAuthApi {
     SyncRestService syncRestService;
@@ -48,7 +49,7 @@ public class PacketAuthenticationApi implements PacketAuthPigeon.PacketAuthApi {
     RegistrationRepository registrationRepository;
 
     private Activity activity;
-
+    private UserDetailRepository userDetailRepository;
     public void setCallbackActivity(MainActivity mainActivity) {
         this.activity = mainActivity;
     }
@@ -56,13 +57,15 @@ public class PacketAuthenticationApi implements PacketAuthPigeon.PacketAuthApi {
     @Inject
     public PacketAuthenticationApi(SyncRestService syncRestService, SyncRestUtil syncRestFactory,
                                    LoginService loginService, PacketService packetService, RegistrationRepository registrationRepository,
-                                   AuditManagerService auditManagerService) {
+                                   AuditManagerService auditManagerService,
+                                   UserDetailRepository userDetailRepository) {
         this.syncRestService = syncRestService;
         this.syncRestFactory = syncRestFactory;
         this.loginService = loginService;
         this.packetService = packetService;
         this.registrationRepository = registrationRepository;
         this.auditManagerService = auditManagerService;
+        this.userDetailRepository = userDetailRepository;
     }
 
     private PacketAuthPigeon.PacketAuth getAuthErrorResponse(String errorCode) {
@@ -146,6 +149,7 @@ public class PacketAuthenticationApi implements PacketAuthPigeon.PacketAuthApi {
 
     @Override
     public void uploadPacketAll(@NonNull List<String> packetIds, @NonNull PacketAuthPigeon.Result<Void> result) {
+        auditManagerService.audit(AuditEvent.NAV_UPLOAD_PACKETS, Components.REGISTRATION);
         Integer packetSize = packetIds.size();
         final Integer[] remainingPack = {packetSize, 0};
         CustomToast newToast = new CustomToast(activity);
@@ -167,6 +171,7 @@ public class PacketAuthenticationApi implements PacketAuthPigeon.PacketAuthApi {
                     public void onComplete(String RID, PacketTaskStatus status) {
                         if (status.equals(PacketTaskStatus.UPLOAD_COMPLETED) || status.equals(PacketTaskStatus.UPLOAD_ALREADY_COMPLETED)) {
                             remainingPack[1] += 1;
+                            auditManagerService.audit(AuditEvent.PACKET_UPLOAD, Components.REGISTRATION);
                         }
                         remainingPack[0] -= 1;
 
@@ -213,6 +218,7 @@ public class PacketAuthenticationApi implements PacketAuthPigeon.PacketAuthApi {
 
     @Override
     public void getAllCreatedRegistrationPacket(@NonNull PacketAuthPigeon.Result<List<String>> result) {
+        auditManagerService.audit(AuditEvent.NAV_APPROVE_REG, Components.REGISTRATION);
         List<String> packets = new ArrayList();
         try {
             List<Registration> allRegistration = packetService.getRegistrationsByStatus(PacketClientStatus.CREATED.name(), 40);

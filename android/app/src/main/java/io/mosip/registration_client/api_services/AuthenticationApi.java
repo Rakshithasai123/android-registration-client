@@ -106,6 +106,7 @@ public class AuthenticationApi implements AuthResponsePigeon.AuthResponseApi {
                             loginService.saveAuthToken(wrapper.getResponse(), username);
                             loginService.setPasswordHash(username, password);
                             loginService.resetFailedLoginAttempts(username);
+                            auditManagerService.audit(AuditEvent.NAV_HOME, Components.REGISTRATION);
                             String preferredUsername = sharedPreferences.getString(PREFERRED_USERNAME, username);
                             String fullName = sharedPreferences.getString(USER_NAME, preferredUsername);
                             AuthResponsePigeon.AuthResponse authResponse = new AuthResponsePigeon.AuthResponse.Builder()
@@ -175,6 +176,7 @@ public class AuthenticationApi implements AuthResponsePigeon.AuthResponseApi {
             String token = loginService.saveUserAuthTokenOffline(username);
             String preferredUsername = sharedPreferences.getString(PREFERRED_USERNAME, username);
             String fullName = sharedPreferences.getString(USER_NAME, preferredUsername);
+            auditManagerService.audit(AuditEvent.NAV_HOME, Components.REGISTRATION);
             AuthResponsePigeon.AuthResponse authResponse = new AuthResponsePigeon.AuthResponse.Builder()
                     .setResponse(token)
                     .setUserId(username)
@@ -196,6 +198,7 @@ public class AuthenticationApi implements AuthResponsePigeon.AuthResponseApi {
 
     @Override
     public void login(@NonNull String username, @NonNull String password, @NonNull Boolean isConnected, @NonNull AuthResponsePigeon.Result<AuthResponsePigeon.AuthResponse> result) {
+        auditManagerService.audit(AuditEvent.LOGIN_AUTHENTICATE_USER_ID, Components.LOGIN);
         auditManagerService.audit(AuditEvent.LOGIN_WITH_PASSWORD, Components.LOGIN);
         if(loginService.isUserLocked(username)) {
             result.success(getAuthErrorResponse(LOCKOUT_ERROR_CODE));
@@ -212,6 +215,7 @@ public class AuthenticationApi implements AuthResponsePigeon.AuthResponseApi {
     @Override
     public void logout(@NonNull AuthResponsePigeon.Result<String> result) {
         loginService.clearAuthToken(this.context);
+        auditManagerService.audit(AuditEvent.LOGOUT_USER, Components.LOGIN);
         result.success("Logout Success");
     }
 

@@ -24,12 +24,15 @@ import io.mosip.registration.clientmanager.spi.RegistrationService;
 import io.mosip.registration.keymanager.util.CryptoUtil;
 import io.mosip.registration.packetmanager.dto.SimpleType;
 import io.mosip.registration_client.model.DemographicsDataPigeon;
+import io.mosip.registration.clientmanager.constant.AuditEvent;
+import io.mosip.registration.clientmanager.constant.Components;
 
 @Singleton
 public class DemographicsDetailsApi implements DemographicsDataPigeon.DemographicsApi {
     private final RegistrationService registrationService;
     AuditManagerService auditManagerService;
     private static final String GET_FIELD_FAILED_MESSAGE = "Get field failed!";
+    private boolean isDemoCaptureAudited = false;
 
     GlobalParamRepository globalParamRepository;
 
@@ -43,6 +46,11 @@ public class DemographicsDetailsApi implements DemographicsDataPigeon.Demographi
 
     @Override
     public void addDemographicField(@NonNull String fieldId, @NonNull String value, @NonNull DemographicsDataPigeon.Result<String> result) {
+        if (!isDemoCaptureAudited) {
+            auditManagerService.audit(AuditEvent.REG_DEMO_CAPTURE, Components.REGISTRATION);
+            Log.i("AUDIT", "Logged REG_DEMO_CAPTURE - Started capturing demographic details");
+            isDemoCaptureAudited = true;
+        }
         try {
             this.registrationService.getRegistrationDto().addDemographicField(fieldId, value);
             result.success("Ok");
