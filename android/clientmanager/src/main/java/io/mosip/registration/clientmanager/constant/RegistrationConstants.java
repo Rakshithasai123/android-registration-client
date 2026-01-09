@@ -136,6 +136,11 @@ public class RegistrationConstants {
     public static final String REG_PAK_MAX_CNT_OFFLINE_FREQ = "mosip.registration.packet.maximum.count.offline.frequency";
     public static final String INVALID_LOGIN_COUNT = "mosip.registration.invalid_login_count";
     public static final String INVALID_LOGIN_TIME = "mosip.registration.invalid_login_time";
+    public static final String DISK_SPACE = "mosip.registration.disk_space_size";
+    public static final String PRID_LENGTH = "mosip.kernel.prid.length";
+    public static final String UIN_LENGTH = "mosip.kernel.uin.length";
+    public static final String VID_LENGTH = "mosip.kernel.vid.length";
+    public static final String SUPERVISOR_APPROVAL_CONFIG_FLAG = "mosip.registration.supervisor_approval_config_flag";
     public static final String DOC_TYPE = "mosip.registration.document_scanner_doctype";
     public static final String APP_NAME = "mosip.registration.audit_application_name";
     public static final String APP_ID = "mosip.registration.audit_application_id";
