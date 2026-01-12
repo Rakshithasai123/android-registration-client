@@ -64,7 +64,7 @@ public enum AuditEvent {
 
     //REGISTRATION USER EVENT
     REGISTRATION_START("REG-EVT-104", USER_EVENT.getCode(), "REGISTRATION_START", "Registration start event initiated"),
-    LOADED_REGISTRATION_SCREEN("REG-EVT-105", USER_EVENT.getCode(), "LOADED_REGISTRATION_SCREEN", "Registration screen activity loaded"),
+    LOADED_REGISTRATION_SCREEN("REG-EVT-111", USER_EVENT.getCode(), "LOADED_REGISTRATION_SCREEN", "Registration screen activity loaded"),
     NEXT_BUTTON_CLICKED("REG-EVT-069", USER_EVENT.getCode(), "NEXT_BUTTON_CLICKED", "Next button clicked"),
     DOCUMENT_SCAN("REG-EVT-106", USER_EVENT.getCode(), "DOCUMENT_SCAN", "Scan document button clicked"),
     DOCUMENT_SCAN_FAILED("REG-EVT-050", USER_EVENT.getCode(), "DOCUMENT_SCAN_FAILED", "Document scan failed"),
@@ -77,13 +77,13 @@ public enum AuditEvent {
     PRINT_ACKNOWLEDGEMENT("REG-EVT-045", USER_EVENT.getCode(), "PRINT_ACKNOWLEDGEMENT", "Print acknowledgement"),
 
     // Registration : Demographics Details
-    REG_DEMO_CAPTURE("REG-EVT-007", USER_EVENT.getCode(), "REG_DEMO_NEXT", "FvStarted capturing demographic details"),
+    REG_DEMO_CAPTURE("REG-EVT-110", USER_EVENT.getCode(), "REG_DEMO_NEXT", "FvStarted capturing demographic details"),
     REG_DEMO_PRE_REG_DATA_FETCH("REG-EVT-008", USER_EVENT.getCode(), "REG_DEMO_PRE_REG_DATA_FETCH", "Pre-registration: Fetch data for selected Pre-registration"),
     REG_DEMO_NEXT("REG-EVT-105", USER_EVENT.getCode(), "REG_DEMO_NEXT", "Click of Next after capturing demographic details"),
     // Registration Preview
-    REG_PREVIEW_DEMO_EDIT("REG-EVT-043", USER_EVENT.getCode(), "REG_PREVIEW_DEMO_EDIT", "Click of Edit demographics"),
-    REG_PREVIEW_DOC_EDIT("REG-EVT-044", USER_EVENT.getCode(), "REG_PREVIEW_DOC_EDIT", "Click of Edit documents"),
-    REG_PREVIEW_BIO_EDIT("REG-EVT-045", USER_EVENT.getCode(), "REG_PREVIEW_BIO_EDIT", "Click of Biometrics Edit"),
+    REG_PREVIEW_DEMO_EDIT("REG-EVT-114", USER_EVENT.getCode(), "REG_PREVIEW_DEMO_EDIT", "Click of Edit demographics"),
+    REG_PREVIEW_DOC_EDIT("REG-EVT-112", USER_EVENT.getCode(), "REG_PREVIEW_DOC_EDIT", "Click of Edit documents"),
+    REG_PREVIEW_BIO_EDIT("REG-EVT-113", USER_EVENT.getCode(), "REG_PREVIEW_BIO_EDIT", "Click of Biometrics Edit"),
     REG_PREVIEW_SUBMIT("REG-EVT-046", USER_EVENT.getCode(), "REG_PREVIEW_SUBMIT",
             "Click of Next after Registration Preview"),
     REG_PREVIEW_BACK("REG-EVT-047", USER_EVENT.getCode(), "REG_PREVIEW_BACK","Click of Back from registration preview screen"),

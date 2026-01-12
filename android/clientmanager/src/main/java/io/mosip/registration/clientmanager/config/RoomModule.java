@@ -110,9 +110,12 @@ public class RoomModule {
                     encryptExistingDb(context, dbPwd);
                 }
             }
+//            clientDatabase = Room.databaseBuilder(application, ClientDatabase.class, DATABASE_NAME)
+//                    .openHelperFactory(new SupportFactory(dbPwd.getBytes()))
+//                    .addMigrations(ClientDatabaseMigrations.MIGRATION_1_2)
+//                    .allowMainThreadQueries()
+//                    .build();
             clientDatabase = Room.databaseBuilder(application, ClientDatabase.class, DATABASE_NAME)
-                    .openHelperFactory(new SupportFactory(dbPwd.getBytes()))
-                    .addMigrations(ClientDatabaseMigrations.MIGRATION_1_2)
                     .allowMainThreadQueries()
                     .build();
         } catch (Exception e) {
@@ -353,7 +356,7 @@ public class RoomModule {
     @Provides
     @Singleton
     ApplicantValidDocRepository provideApplicantValidDocRepository(ApplicantValidDocumentDao
-                                                                   applicantValidDocumentDao) {
+                                                                           applicantValidDocumentDao) {
         return new ApplicantValidDocRepository(applicantValidDocumentDao);
     }
 
@@ -471,8 +474,8 @@ public class RoomModule {
     @Singleton
     LocalConfigDAO provideLocalConfigDAO(PermittedLocalConfigDao permittedLocalConfigDao, LocalPreferencesDao localPreferencesDao) {
         return new LocalConfigDAOImpl(
-            new PermittedLocalConfigRepository(permittedLocalConfigDao),
-            new LocalPreferencesRepository(localPreferencesDao)
+                new PermittedLocalConfigRepository(permittedLocalConfigDao),
+                new LocalPreferencesRepository(localPreferencesDao)
         );
     }
 }

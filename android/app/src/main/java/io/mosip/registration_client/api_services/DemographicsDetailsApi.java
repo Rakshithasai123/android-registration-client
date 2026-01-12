@@ -32,7 +32,7 @@ public class DemographicsDetailsApi implements DemographicsDataPigeon.Demographi
     private final RegistrationService registrationService;
     AuditManagerService auditManagerService;
     private static final String GET_FIELD_FAILED_MESSAGE = "Get field failed!";
-    private boolean isDemoCaptureAudited = false;
+
 
     GlobalParamRepository globalParamRepository;
 
@@ -47,10 +47,16 @@ public class DemographicsDetailsApi implements DemographicsDataPigeon.Demographi
     @Override
     public void addDemographicField(@NonNull String fieldId,@NonNull String value,@NonNull DemographicsDataPigeon.Result<String> result) {
         try {
-            this.registrationService.getRegistrationDto().addDemographicField(fieldId, value);
-            result.success("Ok");
+            RegistrationDto dto = registrationService.getRegistrationDto();
+                auditManagerService.audit(AuditEvent.REG_DEMO_CAPTURE, Components.REGISTRATION);
+                Log.i("AUDIT", "Logged REG_DEMO_CAPTURE - Started capturing demographic details");
+                dto.setDemoCaptureAudited(true);
+                dto.addDemographicField(fieldId, value);
+                result.success("Ok");
         } catch (Exception e) {
-            Log.e(getClass().getSimpleName(), "Add field failed!" + Arrays.toString(e.getStackTrace()));
+            Log.e(getClass().getSimpleName(),
+                    "Add field failed!", e);
+            result.error(e);
         }
     }
 

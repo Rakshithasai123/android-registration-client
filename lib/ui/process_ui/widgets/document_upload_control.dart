@@ -148,7 +148,7 @@ class _DocumentUploadControlState extends State<DocumentUploadControl> {
 
     if (event.isNotEmpty) {
       await context.read<GlobalProvider>()
-          .getAudit(event!, "REG-MOD-103");
+          .getAudit(event, "REG-MOD-103");
     }
   }
 
