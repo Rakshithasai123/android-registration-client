@@ -39,7 +39,7 @@ class _CustomScannerState extends State<CustomScanner> {
   bool _previewAuditLogged = false;
 
   _documentScanFailedAudit() async {
-    await context.read<GlobalProvider>().getAudit("REG-EVT-049", "REG-MOD-103");
+    await context.read<GlobalProvider>().getAudit("REG-EVT-050", "REG-MOD-103");
   }
 
   _documentPreviewAudit() async {
@@ -158,6 +158,7 @@ class _CustomScannerState extends State<CustomScanner> {
                         ),
                       ),
                       onPressed: () async {
+                        _previewAuditLogged = false;
                         _uploadImage();
                       },
                       child: Text(

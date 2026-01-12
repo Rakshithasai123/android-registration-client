@@ -48,31 +48,26 @@ public class RegistrationApi implements RegistrationDataPigeon.RegistrationDataA
 
     @Override
     public void startRegistration(@NonNull List<String> languages, @NonNull String flowType, @NonNull String process, @NonNull RegistrationDataPigeon.Result<String> result) {
-        Log.d("RegistrationApi", "startRegistration called with process: '" + process + "'");
-        Log.d("RegistrationApi", "startRegistration called with flowType: '" + flowType + "'");
+
 
         String flowTypeUpper = flowType.toUpperCase().trim();
-        Log.d("RegistrationApi", "FlowType uppercase: '" + flowTypeUpper + "'");
+
 
         switch (flowTypeUpper) {
             case "NEW":
-                Log.d("RegistrationApi", "Matched NEW - auditing NAV_NEW_REG");
                 auditManagerService.audit(AuditEvent.NAV_NEW_REG, Components.REGISTRATION);
                 break;
             case "LOST":
-                Log.d("RegistrationApi", "Matched LOST - auditing NAV_LOST_UIN");
                 auditManagerService.audit(AuditEvent.NAV_LOST_UIN, Components.REGISTRATION);
                 break;
             case "UPDATE":
-                Log.d("RegistrationApi", "Matched UPDATE - auditing NAV_UIN_UPDATE");
                 auditManagerService.audit(AuditEvent.NAV_UIN_UPDATE, Components.REGISTRATION);
                 break;
             case "CORRECTION":
-                Log.d("RegistrationApi", "Matched CORRECTION - auditing NAV_CORRECTION");
                 auditManagerService.audit(AuditEvent.NAV_CORRECTION, Components.REGISTRATION);
                 break;
             default:
-                Log.w("RegistrationApi", "NO MATCH for process: '" + process + "'");
+                Log.w("RegistrationApi", "NO MATCH for process: '" + flowTypeUpper + "'");
                 break;
         }
         String response = "";

@@ -91,7 +91,7 @@ public enum AuditEvent {
     //REGISTRATION SYSTEM EVENT
     DISCOVER_SBI_FAILED("REG-EVT-070", SYSTEM_EVENT.getCode(), "DISCOVER_SBI_FAILED", "SBI discovery failed"),
     DEVICE_INFO_FAILED("REG-EVT-049", SYSTEM_EVENT.getCode(), "DEVICE_INFO_FAILED", "Device info failed"),
-    R_CAPTURE_FAILED("REG-EVT-050", SYSTEM_EVENT.getCode(), "R_CAPTURE_FAILED", "R_capture failed"),
+    R_CAPTURE_FAILED("REG-EVT-077", SYSTEM_EVENT.getCode(), "R_CAPTURE_FAILED", "R_capture failed"),
     DISCOVER_SBI_PARSE_FAILED("REG-EVT-051", SYSTEM_EVENT.getCode(), "DISCOVER_SBI_PARSE_FAILED", "SBI discovery response parsing failed"),
     DEVICE_INFO_PARSE_FAILED("REG-EVT-052", SYSTEM_EVENT.getCode(), "DEVICE_INFO_PARSE_FAILED", "Device info response parsing failed"),
     R_CAPTURE_PARSE_FAILED("REG-EVT-053", SYSTEM_EVENT.getCode(), "R_CAPTURE_PARSE_FAILED", "R_capture response parsing failed"),

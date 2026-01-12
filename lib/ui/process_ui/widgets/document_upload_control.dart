@@ -122,9 +122,14 @@ class _DocumentUploadControlState extends State<DocumentUploadControl> {
 
     }
 
-    await context.read<GlobalProvider>().getAudit(eventId, "REG-MOD-103");
+    if (eventId.isNotEmpty) {
+      await context.read<GlobalProvider>().getAudit(
+        eventId,
+        "REG-MOD-103",
+      );
+    }
   }
-  Future<void> _DocumentAudit(String action) async {
+  Future<void> _documentAudit(String action) async {
     String event="";
 
     switch (action) {
@@ -141,7 +146,7 @@ class _DocumentUploadControlState extends State<DocumentUploadControl> {
         event ="";
     }
 
-    if (event!= null) {
+    if (event.isNotEmpty) {
       await context.read<GlobalProvider>()
           .getAudit(event!, "REG-MOD-103");
     }
@@ -367,7 +372,7 @@ class _DocumentUploadControlState extends State<DocumentUploadControl> {
   }
 
   _documentScanClickedAudit()  {
-    _DocumentAudit("SCAN");
+    _documentAudit("SCAN");
     _logDocumentAudit("SCAN");
       }
 
@@ -646,7 +651,7 @@ class _DocumentUploadControlState extends State<DocumentUploadControl> {
                                     children: [
                                       InkWell(
                                         onTap: () {
-                                          _DocumentAudit("VIEW");
+                                          _documentAudit("VIEW");
                                           _logDocumentAudit("VIEW");
                                           Navigator.push(
                                             context,
@@ -669,7 +674,7 @@ class _DocumentUploadControlState extends State<DocumentUploadControl> {
                                       SizedBox(height: 2.h),
                                       GestureDetector(
                                         onTap: () {
-                                          _DocumentAudit("DELETE");
+                                          _documentAudit("DELETE");
                                           _logDocumentAudit("DELETE");
                                           _deleteImage(widget.field, item);
                                           _removeFieldValue(widget.field, item);
@@ -917,7 +922,7 @@ class _DocumentUploadControlState extends State<DocumentUploadControl> {
                                     children: [
                                       InkWell(
                                         onTap: () {
-                                          _DocumentAudit("VIEW");
+                                          _documentAudit("VIEW");
                                           _logDocumentAudit("VIEW");
                                           Navigator.push(
                                             context,
@@ -940,7 +945,7 @@ class _DocumentUploadControlState extends State<DocumentUploadControl> {
                                       SizedBox(height: 10.h),
                                       GestureDetector(
                                         onTap: () {
-                                          _DocumentAudit("DELETE");
+                                          _documentAudit("DELETE");
                                           _logDocumentAudit("DELETE");
                                           _deleteImage(widget.field, item);
                                           _removeFieldValue(widget.field, item);

@@ -45,12 +45,7 @@ public class DemographicsDetailsApi implements DemographicsDataPigeon.Demographi
 
 
     @Override
-    public void addDemographicField(@NonNull String fieldId, @NonNull String value, @NonNull DemographicsDataPigeon.Result<String> result) {
-        if (!isDemoCaptureAudited) {
-            auditManagerService.audit(AuditEvent.REG_DEMO_CAPTURE, Components.REGISTRATION);
-            Log.i("AUDIT", "Logged REG_DEMO_CAPTURE - Started capturing demographic details");
-            isDemoCaptureAudited = true;
-        }
+    public void addDemographicField(@NonNull String fieldId,@NonNull String value,@NonNull DemographicsDataPigeon.Result<String> result) {
         try {
             this.registrationService.getRegistrationDto().addDemographicField(fieldId, value);
             result.success("Ok");
