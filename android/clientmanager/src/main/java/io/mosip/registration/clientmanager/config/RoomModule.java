@@ -110,12 +110,9 @@ public class RoomModule {
                     encryptExistingDb(context, dbPwd);
                 }
             }
-//            clientDatabase = Room.databaseBuilder(application, ClientDatabase.class, DATABASE_NAME)
-//                    .openHelperFactory(new SupportFactory(dbPwd.getBytes()))
-//                    .addMigrations(ClientDatabaseMigrations.MIGRATION_1_2)
-//                    .allowMainThreadQueries()
-//                    .build();
             clientDatabase = Room.databaseBuilder(application, ClientDatabase.class, DATABASE_NAME)
+                    .openHelperFactory(new SupportFactory(dbPwd.getBytes()))
+                    .addMigrations(ClientDatabaseMigrations.MIGRATION_1_2)
                     .allowMainThreadQueries()
                     .build();
         } catch (Exception e) {
