@@ -68,6 +68,7 @@ public class BatchJob {
 
     public void syncRegistrationPackets(Context context) {
         Log.d(getClass().getSimpleName(), "Sync Packets in Batch Job");
+        auditManagerService.audit(AuditEvent.SYNC_SERVER,Components.REG_PACKET_LIST);
         List<Registration> registrationList = getRegistrationList(Arrays.asList(PacketClientStatus.APPROVED.name(), PacketClientStatus.REJECTED.name()));
         final Integer[] remainingPack = {registrationList.size(), 0};
 

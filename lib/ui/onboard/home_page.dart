@@ -92,6 +92,7 @@ class _HomePageState extends State<HomePage> {
     await registrationTaskProvider.getListOfProcesses();
     await globalProvider.getRegCenterName(
         globalProvider.centerId, globalProvider.selectedLanguage);
+    await globalProvider.getAudit("REG-SYNC-002", "REG-MOD-102");
     await globalProvider.initializeLanguageDataList(true);
     await globalProvider.initializeLocationHierarchyMap();
   }

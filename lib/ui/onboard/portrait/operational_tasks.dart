@@ -194,6 +194,10 @@ class _OperationalTasksState extends State<OperationalTasks> {
                     icon: widget.operationalTasks[index]["icon"],
                     title: widget.operationalTasks[index]["title"] as String,
                     ontap: () async {
+                      final title = widget.operationalTasks[index]["title"] as String;
+                      if (title == "Pending Approval") {
+                        globalProvider.getAudit("REG-EVT-004", "REG-MOD-101");
+                      }
                       return widget.operationalTasks[index]["onTap"](context);
                     },
                     subtitle: widget.operationalTasks[index]["subtitle"],

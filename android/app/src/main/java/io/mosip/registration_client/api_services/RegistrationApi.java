@@ -170,7 +170,6 @@ public class RegistrationApi implements RegistrationDataPigeon.RegistrationDataA
 
     @Override
     public void setMachineLocation(@NonNull Double latitude, @NonNull Double longitude, @NonNull RegistrationDataPigeon.Result<Void> result) {
-        auditManagerService.audit(AuditEvent.NAV_GEO_LOCATION, Components.REGISTRATION);
         try {
             this.registrationDto.setGeoLocation(longitude, latitude);
         } catch (Exception e) {

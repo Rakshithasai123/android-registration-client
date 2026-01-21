@@ -113,6 +113,7 @@ class _GenericProcessState extends State<GenericProcess>
 
     Position? position = await globalProvider.fetchLocation();
     if (position != null) {
+      globalProvider.getAudit("REG-GEO-LOC-001", "REG-MOD-103");
       registrationTaskProvider.setCurrentLocation(position.latitude, position.longitude);
     } else {
       debugPrint("Location unavailable — permission denied or service off.");

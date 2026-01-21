@@ -98,6 +98,7 @@ public class PacketAuthenticationApi implements PacketAuthPigeon.PacketAuthApi {
 
     @Override
     public void syncPacketAll(@NonNull List<String> packetIds, @NonNull PacketAuthPigeon.Result<Void> result) {
+        auditManagerService.audit(AuditEvent.SYNC_REGISTRATION_PACKET_STATUS,Components.REGISTRATION);
         Integer packetSize = packetIds.size();
         final Integer[] remainingPack = {packetSize, 0};
         CustomToast newToast = new CustomToast(activity);
@@ -218,7 +219,6 @@ public class PacketAuthenticationApi implements PacketAuthPigeon.PacketAuthApi {
 
     @Override
     public void getAllCreatedRegistrationPacket(@NonNull PacketAuthPigeon.Result<List<String>> result) {
-        auditManagerService.audit(AuditEvent.NAV_APPROVE_REG, Components.REGISTRATION);
         List<String> packets = new ArrayList();
         try {
             List<Registration> allRegistration = packetService.getRegistrationsByStatus(PacketClientStatus.CREATED.name(), 40);

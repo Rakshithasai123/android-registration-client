@@ -190,6 +190,10 @@ public class MasterDataSyncApi implements MasterDataSyncPigeon.SyncApi {
     public void getGlobalParamsSync(@NonNull Boolean isManualSync, @NonNull String jobId, @NonNull MasterDataSyncPigeon.Result<MasterDataSyncPigeon.Sync> result) {
         try {
             masterDataService.syncGlobalParamsData(() -> {
+                auditManagerService.audit(
+                        AuditEvent.SYNC_CLIENT_STATE,
+                        Components.REGISTRATION
+                );
                 Log.i(TAG, "Sync Global Params Completed.");
                 result.success(syncResult("GlobalParamsSync", 1, masterDataService.onResponseComplete()));
             }, isManualSync, jobId);
@@ -202,6 +206,10 @@ public class MasterDataSyncApi implements MasterDataSyncPigeon.SyncApi {
     public void getUserDetailsSync(@NonNull Boolean isManualSync, @NonNull String jobId, @NonNull MasterDataSyncPigeon.Result<MasterDataSyncPigeon.Sync> result) {
         try {
             masterDataService.syncUserDetails(() -> {
+                auditManagerService.audit(
+                        AuditEvent.SYNC_USER_MAPPING,
+                        Components.REGISTRATION
+                );
                 Log.i(TAG, "User details sync Completed.");
                 result.success(syncResult("UserDetailsSync", 3, masterDataService.onResponseComplete()));
             }, isManualSync, jobId);
@@ -228,6 +236,7 @@ public class MasterDataSyncApi implements MasterDataSyncPigeon.SyncApi {
         auditManagerService.audit(AuditEvent.NAV_SYNC_DATA, Components.REGISTRATION);
         try {
             masterDataService.syncMasterData(() -> {
+                auditManagerService.audit(AuditEvent.SYNC_MASTER_DATA,Components.REGISTRATION);
                 Log.i(TAG, "Master Data Sync Completed.");
                 result.success(syncResult("MasterDataSync", 2, masterDataService.onResponseComplete()));
             }, 0, isManualSync, jobId);

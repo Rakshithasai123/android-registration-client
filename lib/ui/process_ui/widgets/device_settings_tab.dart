@@ -5,6 +5,8 @@ import '../../../model/settings.dart';
 import '../../../platform_spi/biometrics_service.dart';
 import '../../../utils/app_config.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
+import 'package:registration_client/provider/global_provider.dart';
 
 class DeviceSettingsTab extends StatefulWidget {
   DeviceSettingsTab(
@@ -26,6 +28,7 @@ class _DeviceSettingsTabState extends State<DeviceSettingsTab> {
   }
 
   Future<List<DeviceInfo>> fetchDeviceDetails() async {
+    context.read<GlobalProvider>().getAudit("REG-SYNC-004","REG-MOD-102");
     List<DeviceInfo> deviceDetails = [];
     try {
       await Future.delayed(const Duration(seconds: 1));

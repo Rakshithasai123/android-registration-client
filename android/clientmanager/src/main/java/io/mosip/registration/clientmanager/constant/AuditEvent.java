@@ -54,7 +54,7 @@ public enum AuditEvent {
 
     //REG_PACKET_LIST
     SYNC_PACKET("REG-PKT-001", USER_EVENT.getCode(), "SYNC_PACKET", "Packet sync clicked"),
-    UPLOAD_PACKET("REG-PKT-002", USER_EVENT.getCode(), "UPLOAD_PACKET", "Upload packet clicked"),
+    UPLOAD_PACKET("REG-UPL-PKT-001", USER_EVENT.getCode(), "UPLOAD_PACKET", "Upload packet clicked"),
     SYNC_AND_UPLOAD_PACKET("REG-PKT-003", USER_EVENT.getCode(), "SYNC_AND_UPLOAD_PACKET", "sync and upload started"),
 
     //JOB_SERVICE
@@ -121,8 +121,70 @@ public enum AuditEvent {
     // MDM
     REG_DOC_SCAN("REG-EVT-089", USER_EVENT.getCode(), "REG_DOC_SCAN", "Doc: Click of Scan"),
     REG_DOC_VIEW("REG-EVT-090", USER_EVENT.getCode(), "REG_DOC_VIEW", "Doc: View"),
-    REG_DOC_DELETE("REG-EVT-091", USER_EVENT.getCode(), "REG_DOC_DELETE", "Doc: Delete");
+    REG_DOC_DELETE("REG-EVT-091", USER_EVENT.getCode(), "REG_DOC_DELETE", "Doc: Delete"),
 
+    // Approve Registration
+    APPR_VIEW_REG("REG-EVT-066", USER_EVENT.getCode(), "APPR_VIEW_REG", "View registration detail"),
+    APPR_REG("REG-EVT-067", USER_EVENT.getCode(), "APPR_REG", "Approve registration"),
+    REJECT_REG("REG-EVT-068", USER_EVENT.getCode(), "REJECT_REG", "Reject registration"),
+
+    // Geo-Location
+    GEO_LOCATION_CAPTURE("REG-GEO-LOC-001", SYSTEM_EVENT.getCode(), "GEO_LOCATION_CAPTURE", "Capture geo-location"),
+
+    // Client To Server Sync
+    SYNC_USER_MAPPING("REG-SYNC-008", USER_EVENT.getCode(), "SYNC_USER_MAPPING", "Sync user mapping"),
+    SYNC_DEVICE_MAPPING("REG-SYNC-009", USER_EVENT.getCode(), "SYNC_DEVICE_MAPPING", "Sync device mapping"),
+    SYNC_CLIENT_STATE("REG-SYNC-010", USER_EVENT.getCode(), "SYNC_CLIENT_STATE", "Sync client state"),
+
+    // Export Packets
+    EXPORT_REG_PACKETS("REG-EXPT-PKT-001", USER_EVENT.getCode(), "EXPORT_REGISTRATION_PACKETS",
+            "Export Packets: To external device"),
+
+    // Sync Packet Ids
+    SYNC_PACKET_IDS("REG-SYNC-PKTS-001", SYSTEM_EVENT.getCode(), "SYNC_PACKET_IDS", "Send Packet IDs to server"),
+
+    // Sync Packets
+    SYNC_SERVER("REG-SYNC-014", USER_EVENT.getCode(), "SYNC_SERVER", "Synchronize the packet status to the server"),
+
+    // Server To Client Sync
+    SYNC_MASTER_DATA("REG-SYNC-001", USER_EVENT.getCode(), "SYNC_MASTER_DATA", "Sync master data"),
+    SYNC_REGISTRATION_CENTER_DETAILS("REG-SYNC-002", USER_EVENT.getCode(), "SYNC_REGISTRATION_CENTER_DETAILS",
+            "Sync registration centre details"),
+    SYNC_MACHINE_DETAILS("REG-SYNC-003", USER_EVENT.getCode(), "SYNC_MACHINE_DETAILS", "Sync machine details"),
+    SYNC_DEVICE_DETAILS("REG-SYNC-004", USER_EVENT.getCode(), "SYNC_DEVICE_DETAILS", "Sync device details"),
+    SYNC_USER_DETAILS("REG-SYNC-005", USER_EVENT.getCode(), "SYNC_USER_DETAILS", "Sync user details"),
+    SYNC_REGISTRATION_PACKET_STATUS("REG-SYNC-006", USER_EVENT.getCode(), "SYNC_REGISTRATION_PACKET_STATUS",
+            "Sync registration packet status"),
+    SYNC_PRE_REGISTRATION_PACKET("REG-SYNC-007", USER_EVENT.getCode(), "SYNC_PRE_REGISTRATION_PACKET",
+            "Sync pre-registration data"),
+
+    // Login and User related
+    LOGIN_MODES_FETCH("REG-AUTH-010", USER_EVENT.getCode(), "LOGIN_MODES_FETCH", "Fetching Login Modes"),
+    USER_STATUS_FETCH("REG-AUTH-011", USER_EVENT.getCode(), "USER_STATUS_FETCH", "Fetching User Status"),
+    VALIDATE_USER_CRED("REG-AUTH-012", USER_EVENT.getCode(), "VALIDATE_USER_CREDENTIALS",
+            "Validating User credentials"),
+    FETCH_USR_DET("REG-AUTH-013", USER_EVENT.getCode(), "FETCH_USER_DETAILS", "Fetching User Details"),
+    FETCH_CNTR_NAME("REG-AUTH-014", USER_EVENT.getCode(), "FETCH_CENTER_NAME", "Fetching Center Name"),
+    FETCH_CNTR_DET("REG-AUTH-015", USER_EVENT.getCode(), "FETCH_CENTER_DETAILS", "Fetching Center Details"),
+    FETCH_USR_ROLE("REG-AUTH-016", USER_EVENT.getCode(), "FETCH_USER_ROLE", "Fetching User Roles"),
+    SYNCJOB_INFO_FETCH("REG-SYNC-011", USER_EVENT.getCode(), "SYNC_JOB_INFO_FETCH",
+            "SyncJobInfo containing the sync control list and yet to export packet count fetched successfully"),
+    SYNC_INFO_VALIDATE("REG-SYNC-012", USER_EVENT.getCode(), "SYNC_INFO_VALIDATION",
+            "Validating the sync status ended successfully"),
+    SYNC_PKT_COUNT_VALIDATE("REG-SYNC-013", USER_EVENT.getCode(), "SYNC_PKT_COUNT_VALIDATION",
+            "Validating yet to export packets frequency with the configured limit count"),
+    PACKET_RETRIVE("REG-PKT-001", USER_EVENT.getCode(), "PACKET_RETRIVE",
+            "Packets which are in created state for approval are retrived"),
+    PACKET_UPDATE("REG-PKT-002", USER_EVENT.getCode(), "PACKET_UPDATE",
+            "Packets which are in created state are updated"),
+    SYNC_GEO_VALIDATE("REG-SYNC-014", USER_EVENT.getCode(), "SYNC_GEO_VALIDATE",
+            "Validating the geo information ended successfully"),
+
+    // Scheduler Util
+    SCHEDULER_REFRESHED_TIMEOUT("REG-SCH-002", SYSTEM_EVENT.getCode(), "REFRESHED_TIMEOUT",
+            "The time task remainder alert"),
+    SCHEDULER_SESSION_TIMEOUT("REG-SCH-003", SYSTEM_EVENT.getCode(), "SESSION_TIMEOUT",
+            "The time task session expires");
     AuditEvent(String id, String type, String name, String description) {
         this.id = id;
         this.type = type;
