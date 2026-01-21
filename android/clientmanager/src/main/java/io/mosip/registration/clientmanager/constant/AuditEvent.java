@@ -158,28 +158,6 @@ public enum AuditEvent {
     SYNC_PRE_REGISTRATION_PACKET("REG-SYNC-007", USER_EVENT.getCode(), "SYNC_PRE_REGISTRATION_PACKET",
             "Sync pre-registration data"),
 
-    // Login and User related
-    LOGIN_MODES_FETCH("REG-AUTH-010", USER_EVENT.getCode(), "LOGIN_MODES_FETCH", "Fetching Login Modes"),
-    USER_STATUS_FETCH("REG-AUTH-011", USER_EVENT.getCode(), "USER_STATUS_FETCH", "Fetching User Status"),
-    VALIDATE_USER_CRED("REG-AUTH-012", USER_EVENT.getCode(), "VALIDATE_USER_CREDENTIALS",
-            "Validating User credentials"),
-    FETCH_USR_DET("REG-AUTH-013", USER_EVENT.getCode(), "FETCH_USER_DETAILS", "Fetching User Details"),
-    FETCH_CNTR_NAME("REG-AUTH-014", USER_EVENT.getCode(), "FETCH_CENTER_NAME", "Fetching Center Name"),
-    FETCH_CNTR_DET("REG-AUTH-015", USER_EVENT.getCode(), "FETCH_CENTER_DETAILS", "Fetching Center Details"),
-    FETCH_USR_ROLE("REG-AUTH-016", USER_EVENT.getCode(), "FETCH_USER_ROLE", "Fetching User Roles"),
-    SYNCJOB_INFO_FETCH("REG-SYNC-011", USER_EVENT.getCode(), "SYNC_JOB_INFO_FETCH",
-            "SyncJobInfo containing the sync control list and yet to export packet count fetched successfully"),
-    SYNC_INFO_VALIDATE("REG-SYNC-012", USER_EVENT.getCode(), "SYNC_INFO_VALIDATION",
-            "Validating the sync status ended successfully"),
-    SYNC_PKT_COUNT_VALIDATE("REG-SYNC-013", USER_EVENT.getCode(), "SYNC_PKT_COUNT_VALIDATION",
-            "Validating yet to export packets frequency with the configured limit count"),
-    PACKET_RETRIVE("REG-PKT-001", USER_EVENT.getCode(), "PACKET_RETRIVE",
-            "Packets which are in created state for approval are retrived"),
-    PACKET_UPDATE("REG-PKT-002", USER_EVENT.getCode(), "PACKET_UPDATE",
-            "Packets which are in created state are updated"),
-    SYNC_GEO_VALIDATE("REG-SYNC-014", USER_EVENT.getCode(), "SYNC_GEO_VALIDATE",
-            "Validating the geo information ended successfully"),
-
     // Scheduler Util
     SCHEDULER_REFRESHED_TIMEOUT("REG-SCH-002", SYSTEM_EVENT.getCode(), "REFRESHED_TIMEOUT",
             "The time task remainder alert"),
