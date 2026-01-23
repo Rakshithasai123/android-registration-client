@@ -198,7 +198,6 @@ public class AuthenticationApi implements AuthResponsePigeon.AuthResponseApi {
 
     @Override
     public void login(@NonNull String username, @NonNull String password, @NonNull Boolean isConnected, @NonNull AuthResponsePigeon.Result<AuthResponsePigeon.AuthResponse> result) {
-        auditManagerService.audit(AuditEvent.LOGIN_AUTHENTICATE_USER_ID, Components.LOGIN);
         auditManagerService.audit(AuditEvent.LOGIN_WITH_PASSWORD, Components.LOGIN);
         if(loginService.isUserLocked(username)) {
             result.success(getAuthErrorResponse(LOCKOUT_ERROR_CODE));

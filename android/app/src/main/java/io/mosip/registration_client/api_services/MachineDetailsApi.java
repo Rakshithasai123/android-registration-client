@@ -45,7 +45,7 @@ public class MachineDetailsApi  implements MachinePigeon.MachineApi {
 
     @Override
     public void getMachineDetails(@NonNull MachinePigeon.Result<MachinePigeon.Machine> result) {
-        auditManagerService.audit(AuditEvent.SYNC_MACHINE_DETAILS,Components.REGISTRATION,"Sync machine details");
+        auditManagerService.audit(AuditEvent.SYNC_MACHINE_DETAILS,Components.REGISTRATION);
         Map<String, String> machineDetails = new HashMap<>();
         Map<String, String> details =
                 clientCryptoManagerService.getMachineDetails();

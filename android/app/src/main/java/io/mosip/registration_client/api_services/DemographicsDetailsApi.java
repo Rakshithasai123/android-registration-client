@@ -47,16 +47,10 @@ public class DemographicsDetailsApi implements DemographicsDataPigeon.Demographi
     @Override
     public void addDemographicField(@NonNull String fieldId,@NonNull String value,@NonNull DemographicsDataPigeon.Result<String> result) {
         try {
-            RegistrationDto dto = registrationService.getRegistrationDto();
-                auditManagerService.audit(AuditEvent.REG_DEMO_CAPTURE, Components.REGISTRATION);
-                Log.i("AUDIT", "Logged REG_DEMO_CAPTURE - Started capturing demographic details");
-                dto.setDemoCaptureAudited(true);
-                dto.addDemographicField(fieldId, value);
-                result.success("Ok");
+            this.registrationService.getRegistrationDto().addDemographicField(fieldId, value);
+            result.success("Ok");
         } catch (Exception e) {
-            Log.e(getClass().getSimpleName(),
-                    "Add field failed!", e);
-            result.error(e);
+            Log.e(getClass().getSimpleName(), "Add field failed!" + Arrays.toString(e.getStackTrace()));
         }
     }
 

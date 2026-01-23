@@ -80,6 +80,7 @@ public enum AuditEvent {
     REG_DEMO_CAPTURE("REG-EVT-110", USER_EVENT.getCode(), "REG_DEMO_NEXT", "FvStarted capturing demographic details"),
     REG_DEMO_PRE_REG_DATA_FETCH("REG-EVT-008", USER_EVENT.getCode(), "REG_DEMO_PRE_REG_DATA_FETCH", "Pre-registration: Fetch data for selected Pre-registration"),
     REG_DEMO_NEXT("REG-EVT-105", USER_EVENT.getCode(), "REG_DEMO_NEXT", "Click of Next after capturing demographic details"),
+
     // Registration Preview
     REG_PREVIEW_DEMO_EDIT("REG-EVT-114", USER_EVENT.getCode(), "REG_PREVIEW_DEMO_EDIT", "Click of Edit demographics"),
     REG_PREVIEW_DOC_EDIT("REG-EVT-112", USER_EVENT.getCode(), "REG_PREVIEW_DOC_EDIT", "Click of Edit documents"),

@@ -151,7 +151,6 @@ public class PacketAuthenticationApi implements PacketAuthPigeon.PacketAuthApi {
 
     @Override
     public void uploadPacketAll(@NonNull List<String> packetIds, @NonNull PacketAuthPigeon.Result<Void> result) {
-        auditManagerService.audit(AuditEvent.NAV_UPLOAD_PACKETS, Components.REGISTRATION);
         Integer packetSize = packetIds.size();
         final Integer[] remainingPack = {packetSize, 0};
         CustomToast newToast = new CustomToast(activity);

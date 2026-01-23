@@ -137,7 +137,6 @@ public class PreRegistrationDataSyncServiceImpl implements PreRegistrationDataSy
 
         //REST call to get Pre Registration Id's
         Call<ResponseWrapper<PreRegistrationIdsDto>> call = this.syncRestService.getPreRegistrationIds(preRegistrationDataSyncDto);
-        auditManager.audit(AuditEvent.SYNC_PRE_REGISTRATION_PACKET,Components.REGISTRATION,"Sync pre-registration data started");
         Log.i(TAG,"REST API Url "+call);
         call.enqueue(new Callback<ResponseWrapper<PreRegistrationIdsDto>>() {
             @Override

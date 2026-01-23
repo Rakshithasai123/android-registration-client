@@ -48,28 +48,7 @@ public class RegistrationApi implements RegistrationDataPigeon.RegistrationDataA
 
     @Override
     public void startRegistration(@NonNull List<String> languages, @NonNull String flowType, @NonNull String process, @NonNull RegistrationDataPigeon.Result<String> result) {
-
-
-        String flowTypeUpper = flowType.toUpperCase().trim();
-
-
-        switch (flowTypeUpper) {
-            case "NEW":
-                auditManagerService.audit(AuditEvent.NAV_NEW_REG, Components.REGISTRATION);
-                break;
-            case "LOST":
-                auditManagerService.audit(AuditEvent.NAV_LOST_UIN, Components.REGISTRATION);
-                break;
-            case "UPDATE":
-                auditManagerService.audit(AuditEvent.NAV_UIN_UPDATE, Components.REGISTRATION);
-                break;
-            case "CORRECTION":
-                auditManagerService.audit(AuditEvent.NAV_CORRECTION, Components.REGISTRATION);
-                break;
-            default:
-                Log.w("RegistrationApi", "NO MATCH for process: '" + flowTypeUpper + "'");
-                break;
-        }
+        auditManagerService.audit(AuditEvent.REGISTRATION_START, Components.REGISTRATION);
         String response = "";
         try {
             this.registrationDto = registrationService.startRegistration(languages, flowType, process);

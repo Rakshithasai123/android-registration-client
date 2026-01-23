@@ -57,12 +57,9 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import io.mosip.registration.clientmanager.spi.AuditManagerService;
-import io.mosip.registration.clientmanager.constant.AuditEvent;
-import io.mosip.registration.clientmanager.constant.Components;
+
 @Singleton
 public class PacketServiceImpl implements PacketService {
-    private AuditManagerService auditManagerService;
     private static final String TAG = PacketServiceImpl.class.getSimpleName();
     public static final String PACKET_EXTERNAL_STATUS_READER_ID = "mosip.registration.packet.external.status";
     public static final String PACKET_STATUS_READER_ID = "mosip.registration.status";
@@ -92,7 +89,6 @@ public class PacketServiceImpl implements PacketService {
         this.syncRestService = syncRestService;
         this.masterDataService = masterDataService;
         this.globalParamRepository = globalParamRepository;
-        this.auditManagerService = auditManagerService;
     }
 
     @Override

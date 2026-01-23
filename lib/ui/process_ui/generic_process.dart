@@ -701,6 +701,19 @@ class _GenericProcessState extends State<GenericProcess>
         }
 
         _nextButtonClickedAudit();
+        final currentScreen =
+        process.screens![globalProvider.newProcessTabIndex]!;
+
+        final localizedDemographicName =
+        AppLocalizations.of(context)!.demographicsScreenName(
+          globalProvider.selectedLanguage,
+        );
+
+        final screenLabel = currentScreen.label?[globalProvider.selectedLanguage];
+
+        if (screenLabel == localizedDemographicName) {
+          globalProvider.getAudit("REG-EVT-110", "REG-MOD-102");
+        }
       } else {
         if (globalProvider.newProcessTabIndex == size + 1) {
           bool isPacketAuthenticated = await _authenticatePacket(context);
