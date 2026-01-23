@@ -658,9 +658,11 @@ class _GenericProcessState extends State<GenericProcess>
       }
 
       if (globalProvider.newProcessTabIndex < size) {
-        await ageDateChangeValidation(globalProvider.newProcessTabIndex, process, size);
+        await ageDateChangeValidation(
+            globalProvider.newProcessTabIndex, process, size);
         bool customValidator =
-            await customValidation(globalProvider.newProcessTabIndex, process, size);
+        await customValidation(
+            globalProvider.newProcessTabIndex, process, size);
         if (customValidator) {
           if (globalProvider.formKey.currentState!.validate()) {
             // Additional info validation - prevent navigation if required but not filled
@@ -701,20 +703,25 @@ class _GenericProcessState extends State<GenericProcess>
         }
 
         _nextButtonClickedAudit();
-        final currentScreen =
-        process.screens![globalProvider.newProcessTabIndex]!;
 
-        final localizedDemographicName =
-        AppLocalizations.of(context)!.demographicsScreenName(
-          globalProvider.selectedLanguage,
-        );
+        if (globalProvider.newProcessTabIndex < size) {
+          final currentScreen =
+          process.screens![globalProvider.newProcessTabIndex]!;
 
-        final screenLabel = currentScreen.label?[globalProvider.selectedLanguage];
+          final localizedDemographicName =
+          AppLocalizations.of(context)!.demographicsScreenName(
+            globalProvider.selectedLanguage,
+          );
 
-        if (screenLabel == localizedDemographicName) {
-          globalProvider.getAudit("REG-EVT-110", "REG-MOD-102");
+          final screenLabel =
+          currentScreen.label?[globalProvider.selectedLanguage];
+
+          if (screenLabel == localizedDemographicName) {
+            globalProvider.getAudit("REG-EVT-110", "REG-MOD-102");
+          }
         }
-      } else {
+      }
+        else {
         if (globalProvider.newProcessTabIndex == size + 1) {
           bool isPacketAuthenticated = await _authenticatePacket(context);
           if (!isPacketAuthenticated) {
