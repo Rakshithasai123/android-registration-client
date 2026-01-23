@@ -101,6 +101,7 @@ public class PacketAuthenticationApi implements PacketAuthPigeon.PacketAuthApi {
         auditManagerService.audit(AuditEvent.SYNC_REGISTRATION_PACKET_STATUS,Components.REGISTRATION);
         Integer packetSize = packetIds.size();
         final Integer[] remainingPack = {packetSize, 0};
+
         CustomToast newToast = new CustomToast(activity);
         for (String value : packetIds) {
             try {
