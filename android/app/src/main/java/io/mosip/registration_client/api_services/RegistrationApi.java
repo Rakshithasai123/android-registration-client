@@ -103,7 +103,6 @@ public class RegistrationApi implements RegistrationDataPigeon.RegistrationDataA
 
     @Override
     public void submitRegistrationDto(@NonNull String makerName, @NonNull RegistrationDataPigeon.Result<RegistrationDataPigeon.RegistrationSubmitResponse> result) {
-        auditManagerService.audit(AuditEvent.REG_DEMO_NEXT, Components.REGISTRATION);
         String response = "";
         String errorCode = "";
         try {

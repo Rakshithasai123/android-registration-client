@@ -60,6 +60,7 @@ import retrofit2.Response;
 
 @Singleton
 public class PacketServiceImpl implements PacketService {
+
     private static final String TAG = PacketServiceImpl.class.getSimpleName();
     public static final String PACKET_EXTERNAL_STATUS_READER_ID = "mosip.registration.packet.external.status";
     public static final String PACKET_STATUS_READER_ID = "mosip.registration.status";

@@ -41,9 +41,6 @@ import retrofit2.Response;
 import androidx.annotation.NonNull;
 
 import org.apache.commons.io.FileUtils;
-import io.mosip.registration.clientmanager.constant.AuditEvent;
-import io.mosip.registration.clientmanager.constant.Components;
-import io.mosip.registration.clientmanager.spi.AuditManagerService;
 
 import java.io.File;
 import java.time.Instant;
@@ -84,9 +81,8 @@ public class PreRegistrationDataSyncServiceImpl implements PreRegistrationDataSy
     ExecutorService executorServiceForPreReg = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
     public static final String APPLICATION_ID_SYNC_FAILED = "application_id_sync_failed";
     public static final String ERROR_FETCH_PRE_REG_PACKET = "Failed to fetch pre-reg packet";
-    private final AuditManagerService auditManager;
 
-    public PreRegistrationDataSyncServiceImpl(Context context,PreRegistrationDataSyncDao preRegistrationDao,MasterDataService masterDataService,SyncRestService syncRestService,PreRegZipHandlingService preRegZipHandlingService,PreRegistrationList preRegistration,GlobalParamRepository globalParamRepository,RegistrationService registrationService,AuditManagerService auditManager){
+    public PreRegistrationDataSyncServiceImpl(Context context,PreRegistrationDataSyncDao preRegistrationDao,MasterDataService masterDataService,SyncRestService syncRestService,PreRegZipHandlingService preRegZipHandlingService,PreRegistrationList preRegistration,GlobalParamRepository globalParamRepository,RegistrationService registrationService){
         this.context = context;
         this.preRegistrationDao = preRegistrationDao;
         this.masterDataService = masterDataService;
@@ -95,7 +91,6 @@ public class PreRegistrationDataSyncServiceImpl implements PreRegistrationDataSy
         this.preRegistration = preRegistration;
         this.globalParamRepository = globalParamRepository;
         this.registrationService = registrationService;
-        this.auditManager = auditManager;
         sharedPreferences = this.context.getSharedPreferences(
                 this.context.getString(R.string.app_name),
                 Context.MODE_PRIVATE);
@@ -137,6 +132,7 @@ public class PreRegistrationDataSyncServiceImpl implements PreRegistrationDataSy
 
         //REST call to get Pre Registration Id's
         Call<ResponseWrapper<PreRegistrationIdsDto>> call = this.syncRestService.getPreRegistrationIds(preRegistrationDataSyncDto);
+
         Log.i(TAG,"REST API Url "+call);
         call.enqueue(new Callback<ResponseWrapper<PreRegistrationIdsDto>>() {
             @Override

@@ -727,6 +727,7 @@ class _GenericProcessState extends State<GenericProcess>
           if (!isPacketAuthenticated) {
             return;
           }
+          await globalProvider.getAudit("REG-EVT-110","REG-MOD-103");
           RegistrationSubmitResponse registrationSubmitResponse =
               await registrationTaskProvider.submitRegistrationDto(username);
           if (registrationSubmitResponse.errorCode != null && registrationSubmitResponse.errorCode!.isNotEmpty) {

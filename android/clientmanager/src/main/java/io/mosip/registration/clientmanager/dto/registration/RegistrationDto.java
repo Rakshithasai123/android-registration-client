@@ -119,6 +119,7 @@ public class RegistrationDto extends Observable {
     public void setReviewerDetails() {
         //TODO
     }
+
     public void setDateField(String fieldId, String subType, String day, String month, String year) {
         if(isValidValue(day) && isValidValue(month) && isValidValue(year)) {
             LocalDate date = LocalDate.of(Integer.valueOf(year), Integer.valueOf(month), Integer.valueOf(day));

@@ -37,8 +37,6 @@ import io.mosip.registration_client.utils.CustomToast;
 import io.mosip.registration_client.MainActivity;
 import io.mosip.registration_client.R;
 import io.mosip.registration_client.model.PacketAuthPigeon;
-import io.mosip.registration.clientmanager.repository.UserDetailRepository;
-import io.mosip.registration.clientmanager.entity.UserDetail;
 @Singleton
 public class PacketAuthenticationApi implements PacketAuthPigeon.PacketAuthApi {
     SyncRestService syncRestService;
@@ -49,7 +47,6 @@ public class PacketAuthenticationApi implements PacketAuthPigeon.PacketAuthApi {
     RegistrationRepository registrationRepository;
 
     private Activity activity;
-    private UserDetailRepository userDetailRepository;
     public void setCallbackActivity(MainActivity mainActivity) {
         this.activity = mainActivity;
     }
@@ -57,15 +54,13 @@ public class PacketAuthenticationApi implements PacketAuthPigeon.PacketAuthApi {
     @Inject
     public PacketAuthenticationApi(SyncRestService syncRestService, SyncRestUtil syncRestFactory,
                                    LoginService loginService, PacketService packetService, RegistrationRepository registrationRepository,
-                                   AuditManagerService auditManagerService,
-                                   UserDetailRepository userDetailRepository) {
+                                   AuditManagerService auditManagerService) {
         this.syncRestService = syncRestService;
         this.syncRestFactory = syncRestFactory;
         this.loginService = loginService;
         this.packetService = packetService;
         this.registrationRepository = registrationRepository;
         this.auditManagerService = auditManagerService;
-        this.userDetailRepository = userDetailRepository;
     }
 
     private PacketAuthPigeon.PacketAuth getAuthErrorResponse(String errorCode) {

@@ -353,7 +353,7 @@ public class RoomModule {
     @Provides
     @Singleton
     ApplicantValidDocRepository provideApplicantValidDocRepository(ApplicantValidDocumentDao
-                                                                           applicantValidDocumentDao) {
+                                                                   applicantValidDocumentDao) {
         return new ApplicantValidDocRepository(applicantValidDocumentDao);
     }
 
@@ -471,8 +471,8 @@ public class RoomModule {
     @Singleton
     LocalConfigDAO provideLocalConfigDAO(PermittedLocalConfigDao permittedLocalConfigDao, LocalPreferencesDao localPreferencesDao) {
         return new LocalConfigDAOImpl(
-                new PermittedLocalConfigRepository(permittedLocalConfigDao),
-                new LocalPreferencesRepository(localPreferencesDao)
+               new PermittedLocalConfigRepository(permittedLocalConfigDao),
+               new LocalPreferencesRepository(localPreferencesDao)
         );
     }
 }
