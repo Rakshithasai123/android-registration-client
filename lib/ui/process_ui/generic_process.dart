@@ -238,13 +238,6 @@ class _GenericProcessState extends State<GenericProcess>
   }
 
   Future<bool> onWillPop(Process process) async {
-    final index = globalProvider.newProcessTabIndex;
-    if (index > 0 && index < process.screens!.length) {
-      final currentScreen = process.screens![index]!;
-      if (currentScreen.name == "Documents") {
-        globalProvider.getAudit("REG-EVT-026", "REG-MOD-103");
-      }
-    }
     if (globalProvider.newProcessTabIndex > 0 &&
         globalProvider.newProcessTabIndex <
             process.screens!.length + postRegistrationTabs.length - 1) {
@@ -689,43 +682,18 @@ class _GenericProcessState extends State<GenericProcess>
                 templateTitleMap!,
               );
             }
-            final nextIndex = globalProvider.newProcessTabIndex + 1;
-              if (nextIndex < size) {
-                final nextScreen = process.screens![nextIndex]!;
-                  if (nextScreen.name == "Documents") {
-                    globalProvider.getAudit("REG-EVT-025", "REG-MOD-103");
-                  }
-              }
-            globalProvider.newProcessTabIndex = nextIndex;
+            globalProvider.newProcessTabIndex =
+                globalProvider.newProcessTabIndex + 1;
           }
         }
 
         _nextButtonClickedAudit();
-
-        if (globalProvider.newProcessTabIndex < size) {
-          final currentScreen =
-          process.screens![globalProvider.newProcessTabIndex]!;
-
-          final localizedDemographicName =
-          AppLocalizations.of(context)!.demographicsScreenName(
-            globalProvider.selectedLanguage,
-          );
-
-          final screenLabel =
-          currentScreen.label?[globalProvider.selectedLanguage];
-
-          if (screenLabel == localizedDemographicName) {
-            globalProvider.getAudit("REG-EVT-110", "REG-MOD-102");
-          }
-        }
-      }
-        else {
+      } else {
         if (globalProvider.newProcessTabIndex == size + 1) {
           bool isPacketAuthenticated = await _authenticatePacket(context);
           if (!isPacketAuthenticated) {
             return;
           }
-          await globalProvider.getAudit("REG-EVT-110","REG-MOD-103");
           RegistrationSubmitResponse registrationSubmitResponse =
               await registrationTaskProvider.submitRegistrationDto(username);
           if (registrationSubmitResponse.errorCode != null && registrationSubmitResponse.errorCode!.isNotEmpty) {
