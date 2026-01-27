@@ -471,8 +471,8 @@ public class RoomModule {
     @Singleton
     LocalConfigDAO provideLocalConfigDAO(PermittedLocalConfigDao permittedLocalConfigDao, LocalPreferencesDao localPreferencesDao) {
         return new LocalConfigDAOImpl(
-               new PermittedLocalConfigRepository(permittedLocalConfigDao),
-               new LocalPreferencesRepository(localPreferencesDao)
+            new PermittedLocalConfigRepository(permittedLocalConfigDao),
+            new LocalPreferencesRepository(localPreferencesDao)
         );
     }
 }

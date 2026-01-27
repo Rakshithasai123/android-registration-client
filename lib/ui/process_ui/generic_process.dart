@@ -99,7 +99,6 @@ class _GenericProcessState extends State<GenericProcess>
         }
       },
     ));
-    //_registrationScreenLoadedAudit();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await _fetchLocation();
     });
