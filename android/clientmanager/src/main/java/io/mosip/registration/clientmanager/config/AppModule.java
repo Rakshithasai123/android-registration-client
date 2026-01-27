@@ -289,7 +289,7 @@ public class AppModule {
 
     @Provides
     @Singleton
-    PreRegistrationDataSyncService PreRegistrationDataSyncService(PreRegistrationDataSyncDao preRegistrationDao, MasterDataService masterDataService, SyncRestService syncRestService, PreRegZipHandlingService preRegZipHandlingService, PreRegistrationList preRegistration, GlobalParamRepository globalParamRepository, RegistrationService registrationService, AuditManagerService auditManagerService) {
+    PreRegistrationDataSyncService PreRegistrationDataSyncService(PreRegistrationDataSyncDao preRegistrationDao, MasterDataService masterDataService, SyncRestService syncRestService, PreRegZipHandlingService preRegZipHandlingService, PreRegistrationList preRegistration, GlobalParamRepository globalParamRepository, RegistrationService registrationService) {
         return new PreRegistrationDataSyncServiceImpl(appContext, preRegistrationDao, masterDataService, syncRestService, preRegZipHandlingService, preRegistration, globalParamRepository, registrationService);
     }
 

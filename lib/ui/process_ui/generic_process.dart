@@ -690,15 +690,14 @@ class _GenericProcessState extends State<GenericProcess>
                 templateTitleMap!,
               );
             }
-            if (globalProvider.newProcessTabIndex < size) {
-              final currentScreen =
-              process.screens![globalProvider.newProcessTabIndex]!;
-              if (currentScreen.name == "Documents") {
-                globalProvider.getAudit("REG-EVT-025", "REG-MOD-103");
+            final nextIndex = globalProvider.newProcessTabIndex + 1;
+              if (nextIndex < size) {
+                final nextScreen = process.screens![nextIndex]!;
+                  if (nextScreen.name == "Documents") {
+                    globalProvider.getAudit("REG-EVT-025", "REG-MOD-103");
+                  }
               }
-            }
-            globalProvider.newProcessTabIndex =
-                globalProvider.newProcessTabIndex + 1;
+            globalProvider.newProcessTabIndex = nextIndex;
           }
         }
 
