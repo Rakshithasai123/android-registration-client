@@ -159,7 +159,7 @@ public class HostApiModule {
     @Singleton
     PacketAuthenticationApi getPacketAuthenticationApi(SyncRestService syncRestService, SyncRestUtil syncRestFactory,
                                                        LoginService loginService, PacketService packetService, RegistrationRepository registrationRepository,
-                                                       AuditManagerService auditManagerService,UserDetailRepository userDetailRepository) {
+                                                       AuditManagerService auditManagerService) {
         return new PacketAuthenticationApi(syncRestService, syncRestFactory, loginService, packetService,registrationRepository, auditManagerService);
     }
 
