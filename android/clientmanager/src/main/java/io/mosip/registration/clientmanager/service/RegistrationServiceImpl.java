@@ -70,6 +70,7 @@ import io.mosip.registration.clientmanager.spi.LocationValidationService;
 import io.mosip.registration.clientmanager.spi.MasterDataService;
 import io.mosip.registration.clientmanager.spi.RegistrationService;
 import io.mosip.registration.clientmanager.spi.PacketService;
+import io.mosip.registration.clientmanager.spi.PreCheckValidatorService;
 import io.mosip.registration.clientmanager.entity.PreRegistrationList;
 import io.mosip.registration.clientmanager.spi.PreRegistrationDataSyncService;
 import javax.inject.Provider;
@@ -117,6 +118,7 @@ public class RegistrationServiceImpl implements RegistrationService {
     private LocationValidationService locationValidationService;
     private Provider<PreRegistrationDataSyncService> preRegistrationDataSyncServiceProvider;
     private PacketService packetService;
+    private PreCheckValidatorService preCheckValidatorService;
     public static final String BOOLEAN_FALSE = "false";
 
     private Biometrics095Service biometricService;
@@ -134,7 +136,8 @@ public class RegistrationServiceImpl implements RegistrationService {
                                    LocationValidationService locationValidationService,
                                    Provider<PreRegistrationDataSyncService> preRegistrationDataSyncServiceProvider,
                                    Biometrics095Service biometricService,
-                                   PacketService packetService) {
+                                   PacketService packetService,
+                                   PreCheckValidatorService preCheckValidatorService) {
         this.context = context;
         this.registrationDto = null;
         this.packetWriterService = packetWriterService;
@@ -150,6 +153,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         this.preRegistrationDataSyncServiceProvider = preRegistrationDataSyncServiceProvider;
         this.biometricService = biometricService;
         this.packetService = packetService;
+        this.preCheckValidatorService = preCheckValidatorService;
     }
 
     @Override
@@ -163,7 +167,7 @@ public class RegistrationServiceImpl implements RegistrationService {
     }
 
     @Override
-    public RegistrationDto startRegistration(@NonNull List<String> languages, String flowType, String process) throws Exception {
+    public RegistrationDto startRegistration(@NonNull List<String> languages, String flowType, String process, Double latitude, Double longitude) throws Exception {
         if (registrationDto != null) {
             registrationDto.cleanup();
         }
@@ -196,6 +200,16 @@ public class RegistrationServiceImpl implements RegistrationService {
         }
         this.registrationDto = new RegistrationDto(rid, flowType, process, version, languages, bioThresholds, rid);
 
+        this.registrationDto.setGeoLocation(longitude, latitude);
+
+        // Validate GPS location if flag is enabled (even if coordinates are null)
+        try {
+                preCheckValidatorService.validateCenterToMachineDistance(longitude, latitude);
+            } catch (ClientCheckedException e) {
+                Log.e(TAG, "Location validation failed", e);
+                throw e;
+        }
+
         SharedPreferences.Editor editor = this.context.getSharedPreferences(this.context.getString(R.string.app_name),
                 Context.MODE_PRIVATE).edit();
         editor.putString(SessionManager.RID, this.registrationDto.getRId());
@@ -217,9 +231,6 @@ public class RegistrationServiceImpl implements RegistrationService {
         if (this.registrationDto == null) {
             throw new ClientCheckedException(context, R.string.err_004);
         }
-
-        // Validate location before submission
-        validateLocation();
 
         if (this.registrationDto.getAdditionalInfoRequestId() != null) {
             String newAppId = this.registrationDto.getAdditionalInfoRequestId().split("-")[0];
@@ -529,88 +540,6 @@ public class RegistrationServiceImpl implements RegistrationService {
         return labelValueMap;
     }
 
-    /**
-     * Validate machine location against registration center
-     * @throws Exception if location is outside allowed distance
-     */
-    private void validateLocation() throws Exception {
-        try {
-
-            String enableFlag = globalParamRepository.getCachedStringGpsDeviceEnableFlag();
-            boolean gpsValidationDisabled = "Y".equalsIgnoreCase(enableFlag);
-            if (gpsValidationDisabled) {
-                Log.w(TAG, "GPS distance validation disabled by config, skipping");
-                return;
-            }
-
-            GeoLocationDto geoLocation = this.registrationDto.getGeoLocationDto();
-            if (geoLocation == null) {
-                Log.w(TAG, "Geo location not available, skipping validation");
-                return;
-            }
-
-            // Get center coordinates
-            CenterMachineDto centerMachineDto = masterDataService.getRegistrationCenterMachineDetails();
-            if (centerMachineDto == null) {
-                Log.w(TAG, "Center details not found, skipping distance validation");
-                return;
-            }
-
-            List<RegistrationCenter> centers = registrationCenterRepository.getRegistrationCenter(
-                centerMachineDto.getCenterId());
-
-            if (centers == null || centers.isEmpty()) {
-                Log.w(TAG, "Center not found, skipping distance validation");
-                return;
-            }
-
-            RegistrationCenter center = centers.get(0);
-            String centerLatStr = center.getLatitude();
-            String centerLonStr = center.getLongitude();
-
-            if (centerLatStr == null || centerLonStr == null ||
-                centerLatStr.isEmpty() || centerLonStr.isEmpty()) {
-                Log.e(TAG, "Center coordinates not available");
-                throw new ClientCheckedException(context, R.string.err_004);
-            }
-
-            try {
-                double centerLatitude = Double.parseDouble(centerLatStr);
-                double centerLongitude = Double.parseDouble(centerLonStr);
-
-                // Calculate distance
-                double distance = locationValidationService.getDistance(
-                    geoLocation.getLongitude(), geoLocation.getLatitude(),
-                    centerLongitude, centerLatitude);
-
-                // Get max allowed distance from config
-                String maxDistanceStr = globalParamRepository.getCachedStringMachineToCenterDistance();
-                if (maxDistanceStr == null || maxDistanceStr.isEmpty()) {
-                    Log.e(TAG, "Max allowed distance configuration not found");
-                    throw new ClientCheckedException(context, R.string.err_004);
-                }
-
-                double maxAllowedDistance = Double.parseDouble(maxDistanceStr);
-
-                // Validate distance
-                if (distance > maxAllowedDistance) {
-                    Log.e(TAG, "Distance not matched with allowed range");
-                    throw new ClientCheckedException(context, R.string.err_004);
-                }
-
-                Log.i(TAG, "Location validated successfully");
-
-            } catch (NumberFormatException e) {
-                Log.e(TAG, "Invalid center coordinates format", e);
-                // Continue with submission even if coordinates are invalid
-            }
-        } catch (ClientCheckedException e) {
-            throw e;
-        } catch (Exception e) {
-            Log.e(TAG, "Location validation failed: " + e.getMessage(), e);
-            // Continue with submission even if validation fails
-        }
-    }
 
     public List<Map<String, String>> getAudits() {
         List<Map<String, String>> audits = new ArrayList<>();
@@ -652,6 +581,9 @@ public class RegistrationServiceImpl implements RegistrationService {
         //is machine and center active
         if (centerMachineDto == null || !centerMachineDto.getCenterStatus() || !centerMachineDto.getMachineStatus())
             throw new ClientCheckedException(context, R.string.err_007);
+
+        // validate sync status - checks if all sync jobs ran within configured time limits
+        preCheckValidatorService.validateSyncStatus();
 
         // registered packet approval time breach check
         if (packetService != null && packetService.isRegisteredPacketApprovalTimeBreached()) {
