@@ -49,86 +49,6 @@ class _DocumentUploadControlState extends State<DocumentUploadControl> {
   }
 
   int maxFileSize = 2 * 1024 * 1024; // Default 2MB
-  Future<void> _logDocumentAudit(String action) async {
-    String eventId="";
-    final String subType = (widget.field.subType ?? "").toUpperCase();
-
-    switch (action) {
-      case "SCAN":
-        switch (subType) {
-          case "POA":
-            eventId = "REG-EVT-010";
-            break;
-          case "POI":
-            eventId = "REG-EVT-013";
-            break;
-          case "POR":
-            eventId = "REG-EVT-016";
-            break;
-          case "POB":
-            eventId = "REG-EVT-019";
-            break;
-          case "POE":
-            eventId = "REG-EVT-022";
-            break;
-          default:
-            eventId = "";
-        }
-        break;
-
-      case "VIEW":
-        switch (subType) {
-          case "POA":
-            eventId = "REG-EVT-011";
-            break;
-          case "POI":
-            eventId = "REG-EVT-014";
-            break;
-          case "POR":
-            eventId = "REG-EVT-017";
-            break;
-          case "POB":
-            eventId = "REG-EVT-020";
-            break;
-          case "POE":
-            eventId = "REG-EVT-023";
-            break;
-          default:
-            eventId = "";
-        }
-        break;
-
-      case "DELETE":
-        switch (subType) {
-          case "POA":
-            eventId = "REG-EVT-012";
-            break;
-          case "POI":
-            eventId = "REG-EVT-015";
-            break;
-          case "POR":
-            eventId = "REG-EVT-018";
-            break;
-          case "POB":
-            eventId = "REG-EVT-021";
-            break;
-          case "POE":
-            eventId = "REG-EVT-024";
-            break;
-          default:
-            eventId = "";
-        }
-        break;
-
-    }
-
-    if (eventId.isNotEmpty) {
-      await context.read<GlobalProvider>().getAudit(
-        eventId,
-        "REG-MOD-103",
-      );
-    }
-  }
   Future<void> _documentAudit(String action) async {
     String event="";
 
@@ -373,7 +293,6 @@ class _DocumentUploadControlState extends State<DocumentUploadControl> {
 
   _documentScanClickedAudit()  {
     _documentAudit("SCAN");
-    _logDocumentAudit("SCAN");
   }
 
   Future<List<int>> getImageBytes(String imagePath) async {
@@ -652,7 +571,6 @@ class _DocumentUploadControlState extends State<DocumentUploadControl> {
                                       InkWell(
                                         onTap: () {
                                           _documentAudit("VIEW");
-                                          _logDocumentAudit("VIEW");
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
@@ -675,7 +593,6 @@ class _DocumentUploadControlState extends State<DocumentUploadControl> {
                                       GestureDetector(
                                         onTap: ()  {
                                           _documentAudit("DELETE");
-                                          _logDocumentAudit("DELETE");
                                           _deleteImage(widget.field, item);
                                           _removeFieldValue(widget.field, item);
                                           _setRemoveScannedPages(widget.field,
@@ -923,7 +840,6 @@ class _DocumentUploadControlState extends State<DocumentUploadControl> {
                                       InkWell(
                                         onTap: ()  {
                                           _documentAudit("VIEW");
-                                          _logDocumentAudit("VIEW");
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
@@ -946,7 +862,6 @@ class _DocumentUploadControlState extends State<DocumentUploadControl> {
                                       GestureDetector(
                                         onTap: ()  {
                                           _documentAudit("DELETE");
-                                          _logDocumentAudit("DELETE");
                                           _deleteImage(widget.field, item);
                                           _removeFieldValue(widget.field, item);
                                           _setRemoveScannedPages(widget.field,

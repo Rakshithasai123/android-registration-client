@@ -18,8 +18,6 @@ import java.util.concurrent.CompletableFuture;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import io.mosip.registration.clientmanager.constant.AuditEvent;
-import io.mosip.registration.clientmanager.constant.Components;
 import io.mosip.registration.clientmanager.dto.CenterMachineDto;
 import io.mosip.registration.clientmanager.entity.RegistrationCenter;
 import io.mosip.registration.clientmanager.entity.UserDetail;
@@ -29,8 +27,6 @@ import io.mosip.registration.clientmanager.spi.AuditManagerService;
 import io.mosip.registration.clientmanager.spi.MasterDataService;
 import io.mosip.registration_client.model.MachinePigeon;
 import io.mosip.registration_client.model.UserPigeon;
-import io.mosip.registration.clientmanager.constant.AuditEvent;
-import io.mosip.registration.clientmanager.constant.Components;
 
 @Singleton
 public class UserDetailsApi implements UserPigeon.UserApi {
@@ -50,7 +46,6 @@ public class UserDetailsApi implements UserPigeon.UserApi {
 
     @Override
     public void validateUser(@NonNull String username, @NonNull String langCode, @NonNull UserPigeon.Result<UserPigeon.User> result) {
-        auditManagerService.audit(AuditEvent.SYNC_USER_DETAILS,Components.REGISTRATION,"Sync user details");
         if (username == null || username.trim().length() == 0) {
             UserPigeon.User user = new UserPigeon.User.Builder()
                     .setUserId(username)
