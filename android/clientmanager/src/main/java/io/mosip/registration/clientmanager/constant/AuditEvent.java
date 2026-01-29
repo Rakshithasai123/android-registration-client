@@ -131,6 +131,7 @@ public enum AuditEvent {
 
     // Geo-Location
     GEO_LOCATION_CAPTURE("REG-GEO-LOC-001", SYSTEM_EVENT.getCode(), "GEO_LOCATION_CAPTURE", "Capture geo-location"),
+    GEO_LOCATION_DENIED("REG-GEO-LOC-002", SYSTEM_EVENT.getCode(), "GEO_LOCATION_DENIED", "Denied geo-location"),
 
     // Client To Server Sync
     SYNC_USER_MAPPING("REG-SYNC-008", USER_EVENT.getCode(), "SYNC_USER_MAPPING", "Sync user mapping"),
