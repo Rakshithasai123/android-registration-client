@@ -99,6 +99,7 @@ class _GenericProcessState extends State<GenericProcess>
         }
       },
     ));
+    _registrationScreenLoadedAudit();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await _fetchLocation();
     });
@@ -682,6 +683,7 @@ class _GenericProcessState extends State<GenericProcess>
                 templateTitleMap!,
               );
             }
+
             globalProvider.newProcessTabIndex =
                 globalProvider.newProcessTabIndex + 1;
           }
