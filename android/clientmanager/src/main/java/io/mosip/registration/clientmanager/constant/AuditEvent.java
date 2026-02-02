@@ -100,22 +100,8 @@ public enum AuditEvent {
 
     // Packet Upload
     PACKET_UPLOAD("REG-EVT-083", USER_EVENT.getCode(), "PACKET_UPLOAD", "Upload the local packets to the server"),
+
     // Registration : Documents
-    REG_DOC_POA_SCAN("REG-EVT-010", USER_EVENT.getCode(), "REG_DOC_POA_SCAN", "PoA: Click of Scan"),
-    REG_DOC_POA_VIEW("REG-EVT-011", USER_EVENT.getCode(), "REG_DOC_POA_VIEW", "PoA: View"),
-    REG_DOC_POA_DELETE("REG-EVT-012", USER_EVENT.getCode(), "REG_DOC_POA_DELETE", "PoA: Delete"),
-    REG_DOC_POI_SCAN("REG-EVT-013", USER_EVENT.getCode(), "REG_DOC_POI_SCAN", "PoI: Click of Scan"),
-    REG_DOC_POI_VIEW("REG-EVT-014", USER_EVENT.getCode(), "REG_DOC_POI_VIEW", "PoI: View"),
-    REG_DOC_POI_DELETE("REG-EVT-015", USER_EVENT.getCode(), "REG_DOC_POI_DELETE", "PoI: Delete"),
-    REG_DOC_POR_SCAN("REG-EVT-016", USER_EVENT.getCode(), "REG_DOC_POR_SCAN", "PoR: Click of Scan"),
-    REG_DOC_POR_VIEW("REG-EVT-017", USER_EVENT.getCode(), "REG_DOC_POR_VIEW", "PoR: View"),
-    REG_DOC_POR_DELETE("REG-EVT-018", USER_EVENT.getCode(), "REG_DOC_POR_DELETE", "PoR: Delete"),
-    REG_DOC_POB_SCAN("REG-EVT-019", USER_EVENT.getCode(), "REG_DOC_POB_SCAN", "PoB: Click of Scan"),
-    REG_DOC_POB_VIEW("REG-EVT-020", USER_EVENT.getCode(), "REG_DOC_POB_VIEW", "PoB: View"),
-    REG_DOC_POB_DELETE("REG-EVT-021", USER_EVENT.getCode(), "REG_DOC_POB_DELETE", "PoB: Delete"),
-    REG_DOC_POE_SCAN("REG-EVT-022", USER_EVENT.getCode(), "REG_DOC_POB_SCAN", "PoB: Click of Scan"),
-    REG_DOC_POE_VIEW("REG-EVT-023", USER_EVENT.getCode(), "REG_DOC_POB_VIEW", "PoB: View"),
-    REG_DOC_POE_DELETE("REG-EVT-024", USER_EVENT.getCode(), "REG_DOC_POB_DELETE", "PoB: Delete"),
     REG_DOC_NEXT("REG-EVT-025", USER_EVENT.getCode(), "REG_DOC_NEXT", "Click of Next after uploading documents"),
     REG_DOC_BACK("REG-EVT-026", USER_EVENT.getCode(), "REG_DOC_BACK", "Click of Back to demographic details"),
 
